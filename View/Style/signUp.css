@@ -1,0 +1,225 @@
+:root {
+  --primary: #9b7c43;
+  --text-dark: #171717;
+  --text-muted: #8f8f8f;
+  --border: #b79257;
+  --bg: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #fcfbf8 0%, #ffffff 100%);
+  color: var(--text-dark);
+}
+
+.signUpPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.signUpWrapper {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.leftPart,
+.rightPart {
+  width: 50%;
+}
+
+.leftPart {
+  max-width: 460px;
+}
+
+.signUpForm {
+  width: 100%;
+}
+
+.pageTitle {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.pageSubtitle {
+  font-size: 18px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+}
+
+.fieldGroup {
+  margin-bottom: 18px;
+}
+
+.formLabel {
+  display: block;
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.formControl,
+.formSelection {
+  width: 100%;
+  height: 44px;
+  border: 1.8px solid var(--border);
+  border-radius: 999px;
+  padding: 0 18px;
+  font-size: 16px;
+  outline: none;
+  background: #fff;
+  color: #222;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  appearance: none;
+}
+
+.formControl:focus,
+.formSelection:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(155, 124, 67, 0.12);
+}
+
+.selectionWrap {
+  position: relative;
+}
+
+.selectionWrap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  width: 16px;
+  height: 16px;
+  border-right: 3px solid var(--primary);
+  border-bottom: 3px solid var(--primary);
+  transform: translateY(-65%) rotate(45deg);
+  pointer-events: none;
+}
+
+.selectionWrap::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 56px;
+  width: 1.5px;
+  height: 28px;
+  background: #c9b189;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.submitButton {
+  width: 100%;
+  height: 52px;
+  border: none;
+  border-radius: 999px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 22px;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.submitButton:hover {
+  background: #896a35;
+  transform: translateY(-1px);
+}
+
+.loginLink {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 15px;
+  color: #666;
+}
+
+.loginLink a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.rightPart {
+  display: flex;
+  justify-content: center;
+}
+
+.hotelRightImage {
+  width: 100%;
+  max-width: 520px;
+  height: 640px;
+  border-radius: 68px;
+  overflow: hidden;
+  background: #eef4f8;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+}
+
+.hotelRightImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 992px) {
+  .signUpWrapper {
+    flex-direction: column;
+  }
+
+  .leftPart,
+  .rightPart {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .leftPart {
+    order: 2;
+  }
+
+  .rightPart {
+    order: 1;
+  }
+
+  .hotelRightImage {
+    max-width: 100%;
+    height: 380px;
+    border-radius: 40px;
+  }
+}
+
+@media (max-width: 576px) {
+  .signUpPage {
+    padding: 20px;
+  }
+
+  .pageTitle {
+    font-size: 30px;
+  }
+
+  .pageSubtitle {
+    font-size: 16px;
+  }
+
+  .submitButton {
+    font-size: 20px;
+  }
+}
