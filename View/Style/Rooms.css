@@ -1,0 +1,299 @@
+/* rooms.css */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    padding:30px;
+}
+
+/* MAIN */
+
+.main{
+    display:flex;
+    gap:25px;
+    align-items:flex-start;
+}
+
+/* LEFT SIDE */
+
+.rooms-card{
+    flex:1;
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.05);
+}
+
+/* TOP BAR */
+
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.top-bar h2{
+    font-size:26px;
+    color:#222;
+}
+
+.filter-box{
+    display:flex;
+    gap:12px;
+}
+
+.filter-box select{
+    height:42px;
+    border:1px solid #dfe3ea;
+    border-radius:10px;
+    padding:0 15px;
+    background:#fff;
+    color:#555;
+    outline:none;
+    cursor:pointer;
+    font-size:14px;
+}
+
+/* TABLE HEAD */
+
+.table-head{
+    display:grid;
+
+    grid-template-columns:
+    2.7fr
+    2fr
+    1fr
+    1fr
+    1fr
+    0.8fr;
+
+    gap:18px;
+
+    padding-bottom:16px;
+
+    border-bottom:1px solid #ececec;
+
+    font-size:14px;
+    font-weight:600;
+    color:#666;
+}
+
+/* ROOM ROW */
+
+.room-row{
+    display:grid;
+
+    grid-template-columns:
+    2.7fr
+    2fr
+    1fr
+    1fr
+    1fr
+    0.8fr;
+
+    gap:18px;
+
+    align-items:center;
+
+    padding:22px 0;
+}
+
+/* ROOM LEFT */
+
+.room-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+/* IMAGE */
+
+.room-img{
+    width:110px;
+    height:78px;
+    border-radius:14px;
+    overflow:hidden;
+    flex-shrink:0;
+}
+
+.room-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+/* ROOM DETAILS */
+
+.room-details span{
+    display:block;
+    font-size:12px;
+    color:#8e8e8e;
+    margin-bottom:4px;
+}
+
+.room-details h4{
+    font-size:15px;
+    line-height:22px;
+    color:#222;
+    margin-top:5px;
+}
+
+/* DESCRIPTION */
+
+.description{
+    font-size:13px;
+    line-height:22px;
+    color:#666;
+}
+
+/* RATE */
+
+.rate{
+    font-size:14px;
+    font-weight:600;
+    color:#222;
+}
+
+/* CAPACITY */
+
+.capacity{
+    font-size:13px;
+    line-height:22px;
+    color:#555;
+}
+
+/* AMENITIES */
+
+.amenities{
+    font-size:13px;
+    line-height:22px;
+    color:#555;
+}
+
+/* STATUS */
+
+.status{
+    font-size:13px;
+    font-weight:600;
+}
+
+.green{
+    color:#29c96b;
+}
+
+/* RIGHT SIDE */
+
+.add-room-card{
+    width:360px;
+    background:#fff;
+    border-radius:18px;
+    padding:24px;
+    box-shadow:0 2px 12px rgba(0,0,0,0.05);
+}
+
+/* TITLE */
+
+.add-room-card h2{
+    font-size:25px;
+    margin-bottom:25px;
+    color:#222;
+}
+
+/* INPUT */
+
+.input-box{
+    margin-bottom:22px;
+}
+
+.input-box label{
+    display:block;
+    margin-bottom:10px;
+    color:#555;
+    font-size:14px;
+    font-weight:600;
+}
+
+
+
+.input-box select{
+    width:100%;
+    height:48px;
+    border:1px solid #dfe3ea;
+    border-radius:10px;
+    padding:0 15px;
+    outline:none;
+    font-size:14px;
+    background:#fff;
+}
+
+/* CHECKBOX SECTION */
+
+.checkbox-group{
+  gap: 10px;
+  
+    
+}
+
+
+/* UPLOAD */
+
+.upload-box{
+    height:170px;
+    border:2px dashed #d9dee8;
+    border-radius:16px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background:#fafbfd;
+    text-align:center;
+}
+
+.upload-box i{
+    font-size:30px;
+    color:#4a70ff;
+    margin-bottom:14px;
+}
+
+.upload-box p{
+    color:#4a70ff;
+    font-size:14px;
+    margin-bottom:5px;
+    font-weight:600;
+}
+
+.upload-box span{
+    font-size:12px;
+    color:#999;
+}
+
+/* BUTTON */
+
+.btn-box{
+    margin-top:28px;
+}
+
+.add-btn{
+    width:100%;
+    height:48px;
+    border:none;
+    border-radius:10px;
+    background:#3563ff;
+    color:#fff;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.add-btn:hover{
+    background:#244de0;
+}
