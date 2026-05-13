@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Luxury Hotel</title>
+    <link rel="stylesheet" href="Style/Homepage.css">
 </head>
 <body>
 
