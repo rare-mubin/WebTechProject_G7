@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>Login Page</title>
+    <link rel="stylesheet" href="style/logIn.css">
 </head>
 <body>
     <div class="logInPage">
