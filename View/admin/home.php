@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Admin Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── SIDEBAR ── */
+    #sidebar {
+      width: 240px;
+      background: #1e2a3a;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      box-shadow: 2px 0 8px rgba(0,0,0,.25);
+    }
+
+    #sidebar .logo {
+      padding: 24px 20px 16px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: .5px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+      color: #7eb6ff;
+    }
+
+    #sidebar nav { padding: 12px 0; flex: 1; }
+
+    #sidebar nav a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      color: #aab4c4;
+      text-decoration: none;
+      font-size: .95rem;
+      transition: background .2s, color .2s;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+    }
+
+    #sidebar nav a:hover {
+      background: rgba(255,255,255,.06);
+      color: #fff;
+    }
+
+    #sidebar nav a.active {
+      background: rgba(126,182,255,.12);
+      color: #7eb6ff;
+      border-left-color: #7eb6ff;
+    }
+
+    #sidebar nav a .icon { font-size: 1.1rem; width: 20px; text-align: center; }
+
+    /* ── MAIN AREA ── */
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #topbar {
+      background: #fff;
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+    }
+
+    #topbar h1 { font-size: 1.1rem; color: #1e2a3a; font-weight: 600; }
+    #topbar .user { font-size: .9rem; color: #666; }
+
+    /* ── CONTENT PANEL ── */
+    #content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px;
+    }
+
+    /* Loading spinner */
+    #loading {
+      display: none;
+      text-align: center;
+      padding: 60px 0;
+      color: #888;
+    }
+
+    #loading::after {
+      content: '';
+      display: inline-block;
+      width: 36px; height: 36px;
+      border: 3px solid #dde;
+      border-top-color: #7eb6ff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside id="sidebar">
+  <div class="logo">Moonlight Dashboard</div>
+  <?php include 'sidebar.php'; ?>
+</aside>
+
+<!-- MAIN -->
+<div id="main">
+  <div id="topbar">
+    <h1 id="page-title">Dashboard</h1>
+    <span class="user">Dashboard</span>
+  </div>
+
+  <div id="content">
+    <div id="loading"></div>
+    <div id="page-content">
+      <?php include 'pages/Dashboard.php'; ?>
+    </div>
+  </div>
+</div>
+
+<script src="../../Assets/js/sidebar.js"></script>
+</body>
+</html>
