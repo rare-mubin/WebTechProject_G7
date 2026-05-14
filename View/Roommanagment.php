@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <title>Rooms</title>
+
+    <link rel="stylesheet" href="Style/Rooms.css">
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
 
 <body>
 
 <div class="main">
 
-    <!-- LEFT SIDE -->
     <div class="rooms-card">
 
-        <!-- TOP BAR -->
         <div class="top-bar">
 
             <h2>Rooms</h2>
@@ -20,40 +25,47 @@
 
                 <select>
                     <option>All Type</option>
+                    <option>Luxury Suite</option>
+                    <option>Deluxe Room</option>
+                    <option>Family Room</option>
                 </select>
 
                 <select>
                     <option>All Status</option>
+                    <option>Available</option>
+                    <option>Booked</option>
+                    <option>Maintenance</option>
                 </select>
 
             </div>
 
         </div>
 
-        <!-- TABLE HEAD -->
         <div class="table-head">
 
             <div>Image</div>
-            <div>Description</div>
             <div>Rate</div>
             <div>Capacity</div>
             <div>Amenities</div>
             <div>Status</div>
+            <div>Action</div>
 
         </div>
 
-        <!-- ROOM -->
         <div class="room-row">
 
             <div class="room-left">
 
                 <div class="room-img">
+
                     <img src="../Image/room1.jpg" alt="">
+
                 </div>
 
                 <div class="room-details">
 
-                    <span>ID:B17 • Room:101</span>
+                    <span>Room: 101</span>
+
                     <span>1st Floor</span>
 
                     <h4>
@@ -65,16 +77,10 @@
 
             </div>
 
-            <div class="description">
-
-                Elegant modern room with premium
-                lighting, swimming pool access
-                and luxury interior decoration.
-
-            </div>
-
             <div class="rate">
+
                 $1280/Night
+
             </div>
 
             <div class="capacity">
@@ -91,41 +97,42 @@
             </div>
 
             <div class="status green">
+
                 Available
+
+            </div>
+
+            <div class="action">
+
+                <button class="delete-btn" type="button" title="Delete Room">
+
+                    <i class="fa-solid fa-trash"></i>
+
+                </button>
+
             </div>
 
         </div>
 
     </div>
 
-    <!-- RIGHT SIDE -->
     <div class="add-room-card">
 
         <h2>Add Room</h2>
 
-        <!-- ROOM ID -->
-        <div class="input-box">
-
-            <label>Room ID</label>
-
-            <input type="text" placeholder="B17">
-
-        </div>
-
-        <!-- ROOM TYPE -->
         <div class="input-box">
 
             <label>Room Type</label>
 
             <select>
-                <option>Standard</option>
-                <option>Delux</option>
-                <option>Suite</option>
+                <option>Select Room Type</option>
+                <option>Luxury Suite</option>
+                <option>Deluxe Room</option>
+                <option>Family Room</option>
             </select>
 
         </div>
 
-        <!-- ROOM NUMBER -->
         <div class="input-box">
 
             <label>Room Number</label>
@@ -134,90 +141,30 @@
 
         </div>
 
-        <!-- FLOOR NUMBER -->
         <div class="input-box">
 
-            <label>Floor Number</label>
+            <label>Floor</label>
 
             <input type="text" placeholder="1st Floor">
 
         </div>
 
-        <!-- RATE -->
         <div class="input-box">
 
-            <label>Rate Per Night</label>
+            <label>Per Night Rate</label>
 
             <input type="text" placeholder="$1200 / Night">
 
         </div>
 
-        <!-- MAX CAPACITY -->
-        <div class="input-box">
+       
 
-            <label>Max Capacity</label>
-
-            <input type="text" placeholder="2 Adults, 1 Child">
-
-        </div>
-
-        <!-- AMENITIES -->
-        <div>
-
-            <label>Amenities</label>
-
-            <div class="checkbox-group">
-
-                <label class="check-item">
-
-                    <input type="checkbox">
-
-                    <span>WiFi</span>
-
-                </label>
-
-                <label class="check-item">
-
-                    <input type="checkbox">
-
-                    <span>AC</span>
-
-                </label>
-
-                <label class="check-item">
-
-                    <input type="checkbox">
-
-                    <span>TV</span>
-
-                </label>
-
-            </div>
-
-        </div>
-
-        <!-- IMAGE -->
-        <div class="input-box">
-
-            <label>Room Image</label>
-
-            <div class="upload-box">
-
-                <i class="fa-regular fa-image"></i>
-
-                <p>Click to Upload or drag and drop</p>
-
-                <span>(Max file size 25 MB)</span>
-
-            </div>
-
-        </div>
-
-        <!-- BUTTON -->
         <div class="btn-box">
 
             <button class="add-btn">
+
                 Add Room
+
             </button>
 
         </div>
@@ -225,6 +172,7 @@
     </div>
 
 </div>
+
 
 </body>
 </html>
