@@ -441,7 +441,8 @@ textarea{
     </div>
 
     <!-- RIGHT SIDE -->
-    <div class="add-room-card">
+    <form class="add-room-card" onsubmit=" event.preventDefault();addRoomType();">
+
 
         <h2>Add Room Type</h2>
 
@@ -450,7 +451,7 @@ textarea{
 
             <label>Room Type Name</label>
 
-            <input type="text" >
+            <input type="text" id="roomtypeName" placeholder="Enter room type name">
 
         </div>
 
@@ -459,7 +460,7 @@ textarea{
 
             <label>Per Night Rate</label>
 
-            <input type="text" placeholder="">
+            <input type="text" placeholder="" id="perNightRate">
 
         </div>
 
@@ -468,7 +469,7 @@ textarea{
 
             <label>Description</label>
 
-            <textarea placeholder="Write room description..."></textarea>
+            <textarea placeholder="Write room description..." id="description"></textarea>
 
         </div>
 
@@ -477,7 +478,7 @@ textarea{
 
             <label>Max Capacity</label>
 
-            <input type="text" >
+            <input type="text" id="maxCapacity" >
 
         </div>
 
@@ -489,22 +490,22 @@ textarea{
             <div class="amenities-box">
 
                 <label class="amenity-item">
-                    <input type="checkbox">
+                    <input type="checkbox" id="wifi">
                     <span>WiFi</span>
                 </label>
 
                 <label class="amenity-item">
-                    <input type="checkbox">
+                    <input type="checkbox" id="ac">
                     <span>Air Condition</span>
                 </label>
 
                 <label class="amenity-item">
-                    <input type="checkbox">
+                    <input type="checkbox" id="smartTv">
                     <span>Smart TV</span>
                 </label>
 
                 <label class="amenity-item">
-                    <input type="checkbox">
+                    <input type="checkbox" id="breakfast">
                     <span>Breakfast</span>
                 </label>
 
@@ -520,6 +521,7 @@ textarea{
             <div class="upload-box">
 
                 <i class="fa-regular fa-image"></i>
+                <input type="file" id="roomImage" accept="image/*" style="display:none;">   
 
                 <p>Click to Upload or drag and drop</p>
 
@@ -528,22 +530,22 @@ textarea{
             </div>
 
         </div>
+  
 
+        <p id="errorMessage" style="color: red;"></p> 
         <!-- BUTTON -->
         <div class="btn-box">
 
-            <button class="add-btn">
 
-                Add Room Type
 
-            </button>
+            <input class="add-btn"  type="submit" value="Add Room Type">
+
 
         </div>
 
-    </div>
+    </form>
 
 </div>
-
 
 
 </body>

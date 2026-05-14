@@ -28,11 +28,25 @@ function handleLinkClick(e) {
       // Update the page content
       const content = document.getElementById('page-content');
       content.innerHTML = xhr.responseText;
+
+      if (page === 'Roomtype') {
+        loadScriptOnce('/WebTechProject_G7/Assets/js/Roomtype.js', 'roomtype-js');
+      }
     }
   };
   
   // Send the request
   xhr.send();
+}
+
+function loadScriptOnce(src, id) {
+  if (document.getElementById(id)) {
+    return;
+  }
+  const script = document.createElement('script');
+  script.src = src;
+  script.id = id;
+  document.body.appendChild(script);
 }
 
 // Initialize the dashboard by attaching click handlers to all navigation links
