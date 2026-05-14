@@ -4,7 +4,7 @@
 
     <title>Rooms</title>
 
-    <link rel="stylesheet" href="Style/Rooms.css">
+    <link rel="stylesheet" href="../styles/Rooms.css">
 
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
