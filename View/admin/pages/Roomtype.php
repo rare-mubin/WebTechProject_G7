@@ -547,8 +547,6 @@ textarea{
 
 </div>
 
-<script src="../Assets/js/Roomtype.js"></script>
-
 
 </body>
 </html>

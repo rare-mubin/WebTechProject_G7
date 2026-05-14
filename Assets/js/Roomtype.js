@@ -1,6 +1,6 @@
 function addRoomType() {
 
-    alert("addRoomType function called"); 
+    
     let roomTypeName = document.getElementById('roomtypeName').value;
     let perNightRate = document.getElementById('perNightRate').value;
     let description = document.getElementById('description').value;
@@ -24,7 +24,7 @@ function addRoomType() {
             }
         }
     };
-    xhttp.open("POST", "../Controller/Roomtypevalidation.php", true);
+    xhttp.open("POST", "/WebTechProject_G7/Controller/Roomtypevalidation.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhttp.send("action=Add&roomTypeName=" + roomTypeName + "&perNightRate=" + perNightRate + "&description=" + description + "&maxCapacity=" + maxCapacity + "&wifi=" + wifi + "&ac=" + ac + "&smartTv=" + smartTv + "&breakfast=" + breakfast);
 }
