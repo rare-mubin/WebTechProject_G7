@@ -3,306 +3,305 @@
 <head>
 
     <title>Rooms</title>
+
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
         /* rooms.css */
 
-/* RESET */
+        /* RESET */
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, Helvetica, sans-serif;
+        }
 
+        /* MAIN */
 
-/* MAIN */
+        .main{
+            display:flex;
+            gap:25px;
+            align-items:flex-start;
+        }
 
-.main{
-    display:flex;
-    gap:25px;
-    align-items:flex-start;
-}
+        /* LEFT CARD */
 
-/* LEFT CARD */
+        .rooms-card{
+            flex:1;
+            background:#fff;
+            border-radius:20px;
+            padding:25px;
+            box-shadow:0 2px 12px rgba(0,0,0,0.05);
+        }
 
-.rooms-card{
-    flex:1;
-    background:#fff;
-    border-radius:20px;
-    padding:25px;
-    box-shadow:0 2px 12px rgba(0,0,0,0.05);
-}
+        /* TOP BAR */
 
-/* TOP BAR */
+        .top-bar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:25px;
+        }
 
-.top-bar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
+        .top-bar h2{
+            font-size:26px;
+            color:#222;
+        }
 
-.top-bar h2{
-    font-size:26px;
-    color:#222;
-}
+        /* FILTER */
 
-/* FILTER */
+        .filter-box{
+            display:flex;
+            gap:12px;
+        }
 
-.filter-box{
-    display:flex;
-    gap:12px;
-}
+        .filter-box select{
+            min-width:130px;
+            height:42px;
+            border:1px solid #dfe3ea;
+            border-radius:10px;
+            padding:0 15px;
+            outline:none;
+            background:#fff;
+            color:#555;
+            font-size:14px;
+            cursor:pointer;
+        }
 
-.filter-box select{
-    min-width:130px;
-    height:42px;
-    border:1px solid #dfe3ea;
-    border-radius:10px;
-    padding:0 15px;
-    outline:none;
-    background:#fff;
-    color:#555;
-    font-size:14px;
-    cursor:pointer;
-}
+        /* TABLE HEAD */
 
-/* TABLE HEAD */
+        .table-head{
+            display:grid;
+            grid-template-columns:
+            2.8fr
+            1.2fr
+            1.2fr
+            1.4fr
+            1fr
+            0.8fr;
+            gap:20px;
+            padding-bottom:16px;
+            border-bottom:1px solid #ececec;
+            color:#666;
+            font-size:14px;
+            font-weight:600;
+        }
 
-.table-head{
-    display:grid;
+        /* ROOM ROW */
 
-    grid-template-columns:
-    2.8fr
-    1.2fr
-    1.2fr
-    1.4fr
-    1fr
-    0.8fr;
+        .room-row{
+            display:grid;
+            grid-template-columns:
+            2.8fr
+            1.2fr
+            1.2fr
+            1.4fr
+            1fr
+            0.8fr;
+            gap:20px;
+            align-items:center;
+            padding:22px 0;
+            border-bottom:1px solid #f0f2f5;
+        }
 
-    gap:20px;
+        .room-row:last-child{
+            border-bottom:none;
+        }
 
-    padding-bottom:16px;
+        /* ROOM LEFT */
 
-    border-bottom:1px solid #ececec;
+        .room-left{
+            display:flex;
+            align-items:center;
+            gap:15px;
+        }
 
-    color:#666;
-    font-size:14px;
-    font-weight:600;
-}
+        /* IMAGE */
 
-/* ROOM ROW */
+        .room-img{
+            width:110px;
+            height:78px;
+            border-radius:14px;
+            overflow:hidden;
+            flex-shrink:0;
+        }
 
-.room-row{
-    display:grid;
+        .room-img img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            display:block;
+        }
 
-    grid-template-columns:
-    2.8fr
-    1.2fr
-    1.2fr
-    1.4fr
-    1fr
-    0.8fr;
+        /* DETAILS */
 
-    gap:20px;
+        .room-details span{
+            display:block;
+            font-size:12px;
+            color:#8b8b8b;
+            margin-bottom:4px;
+        }
 
-    align-items:center;
+        .room-details h4{
+            font-size:15px;
+            color:#222;
+            line-height:22px;
+            margin-top:5px;
+        }
 
-    padding:22px 0;
-    border-bottom:1px solid #f0f2f5;
-}
+        /* RATE */
 
-.room-row:last-child{
-    border-bottom:none;
-}
+        .rate{
+            font-size:14px;
+            font-weight:600;
+            color:#222;
+        }
 
-/* ROOM LEFT */
+        /* CAPACITY */
 
-.room-left{
-    display:flex;
-    align-items:center;
-    gap:15px;
-}
+        .capacity{
+            font-size:13px;
+            line-height:22px;
+            color:#555;
+        }
 
-/* IMAGE */
+        /* AMENITIES */
 
-.room-img{
-    width:110px;
-    height:78px;
-    border-radius:14px;
-    overflow:hidden;
-    flex-shrink:0;
-}
+        .amenities{
+            font-size:13px;
+            line-height:22px;
+            color:#555;
+        }
 
-.room-img img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    display:block;
-}
+        /* STATUS */
 
-/* DETAILS */
+        .status{
+            width:max-content;
+            border-radius:30px;
+            padding:8px 13px;
+            font-size:12px;
+            font-weight:700;
+        }
 
-.room-details span{
-    display:block;
-    font-size:12px;
-    color:#8b8b8b;
-    margin-bottom:4px;
-}
+        .green{
+            background:#eafaf1;
+            color:#20b761;
+        }
 
-.room-details h4{
-    font-size:15px;
-    color:#222;
-    line-height:22px;
-    margin-top:5px;
-}
+        .yellow{
+            background:#fff7e1;
+            color:#d79a00;
+        }
 
-/* RATE */
+        .red{
+            background:#ffecec;
+            color:#e23c3c;
+        }
 
-.rate{
-    font-size:14px;
-    font-weight:600;
-    color:#222;
-}
+        /* ACTION */
 
-/* CAPACITY */
+        .action{
+            display:flex;
+            align-items:center;
+        }
 
-.capacity{
-    font-size:13px;
-    line-height:22px;
-    color:#555;
-}
+        .delete-btn{
+            width:38px;
+            height:38px;
+            border:none;
+            border-radius:12px;
+            background:#fff0f0;
+            color:#ff3b3b;
+            font-size:15px;
+            cursor:pointer;
+            transition:0.3s;
+        }
 
-/* AMENITIES */
+        .delete-btn:hover{
+            background:#ff3b3b;
+            color:#fff;
+        }
 
-.amenities{
-    font-size:13px;
-    line-height:22px;
-    color:#555;
-}
+        /* RIGHT CARD */
 
-/* STATUS */
+        .add-room-card{
+            width:360px;
+            background:#fff;
+            border-radius:20px;
+            padding:25px;
+            box-shadow:0 2px 12px rgba(0,0,0,0.05);
+        }
 
-.status{
-    width:max-content;
-    border-radius:30px;
-    padding:8px 13px;
-    font-size:12px;
-    font-weight:700;
-}
+        /* TITLE */
 
-.green{
-    background:#eafaf1;
-    color:#20b761;
-}
+        .add-room-card h2{
+            font-size:26px;
+            color:#222;
+            margin-bottom:25px;
+        }
 
-.yellow{
-    background:#fff7e1;
-    color:#d79a00;
-}
+        /* INPUT BOX */
 
-.red{
-    background:#ffecec;
-    color:#e23c3c;
-}
+        .input-box{
+            margin-bottom:22px;
+        }
 
-/* ACTION */
+        .input-box label{
+            display:block;
+            margin-bottom:10px;
+            font-size:14px;
+            color:#555;
+            font-weight:600;
+        }
 
-.action{
-    display:flex;
-    align-items:center;
-}
+        /* INPUT */
 
-.delete-btn{
-    width:38px;
-    height:38px;
-    border:none;
-    border-radius:12px;
-    background:#fff0f0;
-    color:#ff3b3b;
-    font-size:15px;
-    cursor:pointer;
-    transition:0.3s;
-}
+        .input-box input,
+        .input-box select{
+            width:100%;
+            height:48px;
+            border:1px solid #dfe3ea;
+            border-radius:12px;
+            padding:0 15px;
+            outline:none;
+            font-size:14px;
+            background:#fff;
+            color:#555;
+        }
 
-.delete-btn:hover{
-    background:#ff3b3b;
-    color:#fff;
-}
+        /* ERROR MESSAGE */
 
-/* RIGHT CARD */
+        .error{
+            color:red;
+            font-size:13px;
+            margin-top:6px;
+        }
 
-.add-room-card{
-    width:360px;
-    background:#fff;
-    border-radius:20px;
-    padding:25px;
-    box-shadow:0 2px 12px rgba(0,0,0,0.05);
-}
+        /* BUTTON */
 
-/* TITLE */
+        .btn-box{
+            margin-top:28px;
+        }
 
-.add-room-card h2{
-    font-size:26px;
-    color:#222;
-    margin-bottom:25px;
-}
+        .add-btn{
+            width:100%;
+            height:50px;
+            border:none;
+            border-radius:12px;
+            background:#3563ff;
+            color:#fff;
+            font-size:15px;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+        }
 
-/* INPUT BOX */
-
-.input-box{
-    margin-bottom:22px;
-}
-
-.input-box label{
-    display:block;
-    margin-bottom:10px;
-    font-size:14px;
-    color:#555;
-    font-weight:600;
-}
-
-/* INPUT */
-
-.input-box input,
-.input-box select{
-    width:100%;
-    height:48px;
-    border:1px solid #dfe3ea;
-    border-radius:12px;
-    padding:0 15px;
-    outline:none;
-    font-size:14px;
-    background:#fff;
-    color:#555;
-}
-
-/* BUTTON */
-
-.btn-box{
-    margin-top:28px;
-}
-
-.add-btn{
-    width:100%;
-    height:50px;
-    border:none;
-    border-radius:12px;
-    background:#3563ff;
-    color:#fff;
-    font-size:15px;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.add-btn:hover{
-    background:#234de0;
-}
+        .add-btn:hover{
+            background:#234de0;
+        }
 
     </style>
 </head>
@@ -311,12 +310,15 @@
 
 <div class="main">
 
+    <!-- LEFT SIDE -->
     <div class="rooms-card">
 
+        <!-- TOP BAR -->
         <div class="top-bar">
 
             <h2>Rooms</h2>
 
+            <!-- FILTER BOX -->
             <div class="filter-box">
 
                 <select>
@@ -337,6 +339,7 @@
 
         </div>
 
+        <!-- TABLE HEAD -->
         <div class="table-head">
 
             <div>Image</div>
@@ -348,8 +351,10 @@
 
         </div>
 
+        <!-- ROOM ROW -->
         <div class="room-row">
 
+            <!-- ROOM IMAGE + DETAILS -->
             <div class="room-left">
 
                 <div class="room-img">
@@ -373,12 +378,14 @@
 
             </div>
 
+            <!-- RATE -->
             <div class="rate">
 
                 $1280/Night
 
             </div>
 
+            <!-- CAPACITY -->
             <div class="capacity">
 
                 2 Adults <br>
@@ -386,18 +393,21 @@
 
             </div>
 
+            <!-- AMENITIES -->
             <div class="amenities">
 
                 WiFi, AC, TV
 
             </div>
 
+            <!-- STATUS -->
             <div class="status green">
 
                 Available
 
             </div>
 
+            <!-- ACTION -->
             <div class="action">
 
                 <button class="delete-btn" type="button" title="Delete Room">
@@ -412,60 +422,72 @@
 
     </div>
 
-    <div class="add-room-card">
+    <!-- RIGHT SIDE / ADD ROOM FORM -->
+    <form class="add-room-card" onsubmit="event.preventDefault(); addRoom();">
 
         <h2>Add Room</h2>
 
+        <!-- ROOM TYPE -->
         <div class="input-box">
 
             <label>Room Type</label>
 
-            <select>
-                <option>Select Room Type</option>
-                <option>Luxury Suite</option>
-                <option>Deluxe Room</option>
-                <option>Family Room</option>
+            <select id="roomType" name="roomType">
+                <option value="">Select Room Type</option>
+                <option value="Luxury Suite">Luxury Suite</option>
+                <option value="Deluxe Room">Deluxe Room</option>
+                <option value="Family Room">Family Room</option>
             </select>
+
+            <!-- ROOM TYPE ERROR -->
+            <p id="roomTypeError" class="error"></p>
 
         </div>
 
+        <!-- ROOM NUMBER -->
         <div class="input-box">
 
             <label>Room Number</label>
 
-            <input type="text" placeholder="101">
+            <input type="text" id="roomNumber" name="roomNumber" placeholder="Room number">
+
+            <!-- ROOM NUMBER ERROR -->
+            <p id="roomNumberError" class="error"></p>
 
         </div>
 
+        <!-- FLOOR -->
         <div class="input-box">
 
             <label>Floor</label>
 
-            <input type="text" placeholder="1st Floor">
+            <input type="text" id="floor" name="floor" placeholder=" Floor number">
+
+            <!-- FLOOR ERROR -->
+            <p id="floorError" class="error"></p>
 
         </div>
 
+        <!-- PER NIGHT RATE -->
         <div class="input-box">
 
             <label>Per Night Rate</label>
 
-            <input type="text" placeholder="$1200 / Night">
+            <input type="text" id="perNightRate" name="perNightRate" placeholder="Per night rate">
+
+            <!-- PER NIGHT RATE ERROR -->
+            <p id="perNightRateError" class="error"></p>
 
         </div>
 
-       
-
+        <!-- BUTTON -->
         <div class="btn-box">
 
-            <button class="add-btn">
-
-                Add Room
-
-            </button>
+            <input class="add-btn" type="submit" value="Add Room">
 
         </div>
 
-    </div>
+    </form>
 
 </div>
 

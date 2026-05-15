@@ -329,6 +329,12 @@ textarea{
 .add-btn:hover{
     background:#234de0;
 }
+.error{
+    color:red;
+    font-size:13px;
+    margin-top:6px;
+}
+
 
     </style>
 
@@ -441,109 +447,80 @@ textarea{
     </div>
 
     <!-- RIGHT SIDE -->
-    <form class="add-room-card" onsubmit=" event.preventDefault();addRoomType();">
+    <form class="add-room-card" onsubmit="event.preventDefault(); addRoomType();" enctype="multipart/form-data">
 
+    <h2>Add Room Type</h2>
 
-        <h2>Add Room Type</h2>
+    <div class="input-box">
+        <label>Room Type Name</label>
+        <input type="text" id="roomtypeName" name="roomtypeName" placeholder="Enter room type name">
+        <p id="roomtypeNameError" class="error"></p>
+    </div>
 
-        <!-- ROOM TYPE -->
-        <div class="input-box">
+    <div class="input-box">
+        <label>Per Night Rate</label>
+        <input type="text" id="perNightRate" name="perNightRate">
+        <p id="perNightRateError" class="error"></p>
+    </div>
 
-            <label>Room Type Name</label>
+    <div class="input-box">
+        <label>Description</label>
+        <textarea id="description" name="description" placeholder="Write room description..."></textarea>
+        <p id="descriptionError" class="error"></p>
+    </div>
 
-            <input type="text" id="roomtypeName" placeholder="Enter room type name">
+    <div class="input-box">
+        <label>Max Capacity</label>
+        <input type="text" id="maxCapacity" name="maxCapacity">
+        <p id="maxCapacityError" class="error"></p>
+    </div>
 
+    <div class="input-box">
+        <label>Amenities</label>
+
+        <div class="amenities-box">
+            <label class="amenity-item">
+                <input type="checkbox" id="wifi" name="wifi" value="1">
+                <span>WiFi</span>
+            </label>
+
+            <label class="amenity-item">
+                <input type="checkbox" id="ac" name="ac" value="1">
+                <span>Air Condition</span>
+            </label>
+
+            <label class="amenity-item">
+                <input type="checkbox" id="smartTv" name="smartTv" value="1">
+                <span>Smart TV</span>
+            </label>
+
+            <label class="amenity-item">
+                <input type="checkbox" id="breakfast" name="breakfast" value="1">
+                <span>Breakfast</span>
+            </label>
         </div>
 
-        <!-- RATE -->
-        <div class="input-box">
+        <p id="amenitiesError" class="error"></p>
+    </div>
 
-            <label>Per Night Rate</label>
+    <div class="input-box">
+        <label>Room Image</label>
 
-            <input type="text" placeholder="" id="perNightRate">
+        <label class="upload-box" for="roomImage">
+            <i class="fa-regular fa-image"></i>
+            <input type="file" id="roomImage" name="roomImage" accept="image/*" style="display:none;">
+            <p>Click to Upload or drag and drop</p>
+            <span>Max file size 25 MB</span>
+        </label>
 
-        </div>
+        <p id="roomImageError" class="error"></p>
+    </div>
 
-        <!-- DESCRIPTION -->
-        <div class="input-box">
+    <div class="btn-box">
+        <input class="add-btn" type="submit" value="Add Room Type">
+    </div>
 
-            <label>Description</label>
-
-            <textarea placeholder="Write room description..." id="description"></textarea>
-
-        </div>
-
-        <!-- MAX CAPACITY -->
-        <div class="input-box">
-
-            <label>Max Capacity</label>
-
-            <input type="text" id="maxCapacity" >
-
-        </div>
-
-        <!-- AMENITIES -->
-        <div class="input-box">
-
-            <label>Amenities</label>
-
-            <div class="amenities-box">
-
-                <label class="amenity-item">
-                    <input type="checkbox" id="wifi">
-                    <span>WiFi</span>
-                </label>
-
-                <label class="amenity-item">
-                    <input type="checkbox" id="ac">
-                    <span>Air Condition</span>
-                </label>
-
-                <label class="amenity-item">
-                    <input type="checkbox" id="smartTv">
-                    <span>Smart TV</span>
-                </label>
-
-                <label class="amenity-item">
-                    <input type="checkbox" id="breakfast">
-                    <span>Breakfast</span>
-                </label>
-
-            </div>
-
-        </div>
-
-        <!-- ROOM IMAGE -->
-        <div class="input-box">
-
-            <label>Room Image</label>
-
-            <div class="upload-box">
-
-                <i class="fa-regular fa-image"></i>
-                <input type="file" id="roomImage" accept="image/*" style="display:none;">   
-
-                <p>Click to Upload or drag and drop</p>
-
-                <span>Max file size 25 MB</span>
-
-            </div>
-
-        </div>
-  
-
-        <p id="errorMessage" style="color: red;"></p> 
-        <!-- BUTTON -->
-        <div class="btn-box">
-
-
-
-            <input class="add-btn"  type="submit" value="Add Room Type">
-
-
-        </div>
-
-    </form>
+</form>
 
 </div>
 
