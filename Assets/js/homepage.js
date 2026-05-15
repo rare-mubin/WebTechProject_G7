@@ -17,6 +17,7 @@ function handleLinkClick(e) {
     if (xhr.status === 200 && content) {
       content.innerHTML = xhr.responseText;
       document.title = title || document.title;
+      
     }
   };
 

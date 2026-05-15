@@ -11,7 +11,7 @@
     </div>
 
     <div class="booking-box-wrapper">
-        <form class="booking-box" action="search.php" method="get">
+        <form class="booking-box" onsubmit="event.preventDefault();searchform();"method="get">
             <div class="booking-field">
                 <label for="checkin">Check In</label>
                 <input type="date" id="checkin" name="Checkin" required>
@@ -24,7 +24,7 @@
                 <label for="guests">Person</label>
                 <input type="number" id="guests" name="guests" min="1" value="1" required>
             </div>
-            <button type="submit" class="booking-btn">Book Now</button>
+            <button type="submit"  class="booking-btn">Book Now</button>
         </form>
     </div>
 </section>
