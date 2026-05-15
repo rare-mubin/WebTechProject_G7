@@ -31,6 +31,8 @@ function handleLinkClick(e) {
 
       if (page === 'Roomtype') {
         loadScriptOnce('/WebTechProject_G7/Assets/js/Roomtype.js', 'roomtype-js');
+      }else if (page === 'Roommanagment') {
+        loadScriptOnce('/WebTechProject_G7/Assets/js/Roommanagment.js', 'roommanagment-js');
       }
     }
   };
