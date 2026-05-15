@@ -11,24 +11,27 @@
     <div class="signUpPage">
         <div class="signUpWrapper">
             <div class="leftPart">
-                <form class="signUpForm" onsubmit="return addGuest();" method="post">
+                <form class="signUpForm" onsubmit="return addGuest();" method="post" >
 
                     <h1 class="pageTitle">Sign Up</h1>
                     <p class="pageSubtitle">Create account</p>
 
                     <div class="fieldGroup">
                         <label for="name" class="formLabel">Name</label>
-                        <input type="text" id="name" name="name" class="formControl" required>
+                        <input type="text" id="name" name="name" class="formControl">
+                        <p id="nameError" style='color: red;'></p>
                     </div>
 
                     <div class="fieldGroup">
                         <label for="email" class="formLabel">Email</label>
-                        <input type="email" id="email" name="email" class="formControl" required>
+                        <input type="email" id="email" name="email" class="formControl">
+                        <p id="emailError" style='color: red;'></p>
                     </div>
 
                     <div class="fieldGroup">
                         <label for="phone" class="formLabel">Phone</label>
-                        <input type="text" id="phone" name="phone" class="formControl"required>
+                        <input type="text" id="phone" name="phone" class="formControl">
+                        <p id="phoneError" style='color: red;'></p>
                     </div>
 
                     <div class="fieldGroup">
@@ -45,16 +48,18 @@
                                 <option value="Other">Other</option>
                             </select>
                         </div>
+                        <p id="optionError" style='color: red;'></p>
                     </div>
 
                     <div class="fieldGroup">
                         <label for="password" class="formLabel">Password</label>
-                        <input type="password" id="password" name="password" class="formControl" required>
+                        <input type="password" id="password" name="password" class="formControl">
+                        <p id="passwordError" style='color: red;'></p>
                     </div>
                     <p id="errorMessage" style='color: red;'></p>
                     <input type="submit" class="submitButton" value="Create Account">
 
-                    <p class="loginLink"> Already have an account? <a href="login.php">Log Up</a></p>
+                    <p class="loginLink"> Already have an account? <a href="login.php">Log In</a></p>
                 </form>
             </div>
 
