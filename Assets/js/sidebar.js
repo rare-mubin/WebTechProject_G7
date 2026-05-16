@@ -46,9 +46,12 @@ function handleLinkClick(e) {
 }
 
 function loadScriptOnce(src, id) {
-  if (document.getElementById(id)) {
-    return;
+  
+  const existing = document.getElementById(id);
+  if (existing) {
+    existing.remove();
   }
+
   const script = document.createElement('script');
   script.src = src;
   script.id = id;

@@ -1,5 +1,5 @@
 <?php
-include "/../Model/bookingMngModel.php";
+include "../Model/bookingMngModel.php";
 
 if (isset($_POST["action"]) && $_POST["action"] === "listBookings") {
 	$model = new BookingMngModel();
