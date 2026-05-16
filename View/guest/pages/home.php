@@ -28,7 +28,9 @@
         </form>
     </div>
 </section>
+<section id="roomResult">
 
+</section>
 <section class="about-section">
     <div class="about-text">
         <span>ABOUT US</span>

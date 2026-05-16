@@ -1,19 +1,20 @@
 <?php
-include"../Model/dataConnection.php";
+include "../Model/dataConnection.php";
+include "../Model/RoomModel.php";
 if (isset($_POST['action']) && $_POST['action'] === "searchRoom") {
     $checkIn = $_POST['checkIn'] ?? "";
     $checkOut = $_POST['checkOut'] ?? "";
     $guestNumber = $_POST['guestNumber'] ?? "";
 
-    if (empty($checkIn) || empty($checkOut) || empty($guestNumber)) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "All fields are required"
-        ]);
-        exit;
-    }
+    // if (empty($checkIn) || empty($checkOut) || empty($guestNumber) {
+    //     echo json_encode([
+    //         "status" => "error",
+    //         "message" => "All fields are required"
+    //     ]);
+    //     exit;
+    // }
 
-    elseif (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $checkIn)) {
+    if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $checkIn)) {
         echo json_encode([
             "status" => "error",
             "message" => "Check-in date is invalid"
@@ -45,24 +46,26 @@ if (isset($_POST['action']) && $_POST['action'] === "searchRoom") {
         exit;
     }
 
-    elseif (!is_numeric($guestNumber) || $guestNumber < 1) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Guest number must be a valid number"
-        ]);
-        exit;
-    }
+    // elseif (!is_numeric($guestNumber) || $guestNumber < 1) {
+    //     echo json_encode([
+    //         "status" => "error",
+    //         "message" => "Guest number must be a valid number"
+    //     ]);
+    //     exit;
+    // }
 
     else {
         $DB = new db();
         $connection = $DB->connection();
-        $rooms = $DB->getRecords($connection,"rooms");
-
-        echo json_encode([
-            "status" => "success",
-            "message" => "Available rooms loaded successfully",
-            "data" => $rooms
-        ]);
+        $rooms = getroom($connection, $checkIn, $checkOut);
+        
+        print_r($rooms);
+        // echo json_encode([
+        //     "status" => "success",
+        //     "message" => "Available rooms loaded successfully",
+        //     "data" => $rooms
+        // ]);
+        echo json_encode($rooms);
         exit;
     }
 }
