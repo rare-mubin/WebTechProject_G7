@@ -31,8 +31,12 @@ function handleLinkClick(e) {
 
       if (page === 'Roomtype') {
         loadScriptOnce('/WebTechProject_G7/Assets/js/Roomtype.js', 'roomtype-js');
-      }else if (page === 'Roommanagment') {
+      }
+      if (page === 'Roommanagment') {
         loadScriptOnce('/WebTechProject_G7/Assets/js/Roommanagment.js', 'roommanagment-js');
+      }
+      if (page === 'bookingManagement') {
+        loadScriptOnce('/WebTechProject_G7/Assets/js/bookingManagement.js', 'bookingManagement-js');
       }
     }
   };

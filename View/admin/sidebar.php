@@ -8,5 +8,7 @@
   <a href="#" class="nav-link" data-page="Roomtype" data-title="Room Type">
     <span class="icon">�️</span> Room Type
   </a>
-  
+  <a href="#" onclick="event.preventDefault(); loadBookings();" class="nav-link" data-page="bookingManagement" data-title="Booking Management">
+    <span class="icon">📅</span> Booking Management
+  </a>
 </nav>
