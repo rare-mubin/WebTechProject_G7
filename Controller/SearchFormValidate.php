@@ -1,72 +1,79 @@
 <?php
+header("Content-Type: application/json");
+
 include "../Model/dataConnection.php";
 include "../Model/RoomModel.php";
-if (isset($_POST['action']) && $_POST['action'] === "searchRoom") {
-    $checkIn = $_POST['checkIn'] ?? "";
-    $checkOut = $_POST['checkOut'] ?? "";
-    $guestNumber = $_POST['guestNumber'] ?? "";
 
-    // if (empty($checkIn) || empty($checkOut) || empty($guestNumber) {
-    //     echo json_encode([
-    //         "status" => "error",
-    //         "message" => "All fields are required"
-    //     ]);
-    //     exit;
-    // }
-
-    if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $checkIn)) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Check-in date is invalid"
-        ]);
-        exit;
-    }
-
-    elseif (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $checkOut)) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Check-out date is invalid"
-        ]);
-        exit;
-    }
-
-    elseif (strtotime($checkIn) < strtotime(date("Y-m-d"))) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Check-in date must be today or later"
-        ]);
-        exit;
-    }
-
-    elseif (strtotime($checkOut) <= strtotime($checkIn)) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Check-out date must be after check-in date"
-        ]);
-        exit;
-    }
-
-    // elseif (!is_numeric($guestNumber) || $guestNumber < 1) {
-    //     echo json_encode([
-    //         "status" => "error",
-    //         "message" => "Guest number must be a valid number"
-    //     ]);
-    //     exit;
-    // }
-
-    else {
-        $DB = new db();
-        $connection = $DB->connection();
-        $rooms = getroom($connection, $checkIn, $checkOut);
-        
-        print_r($rooms);
-        // echo json_encode([
-        //     "status" => "success",
-        //     "message" => "Available rooms loaded successfully",
-        //     "data" => $rooms
-        // ]);
-        echo json_encode($rooms);
-        exit;
-    }
+function sendJson($payload, $statusCode = 200)
+{
+    http_response_code($statusCode);
+    echo json_encode($payload);
+    exit;
 }
+
+$methodData = $_SERVER["REQUEST_METHOD"] === "GET" ? $_GET : $_POST;
+$action = $methodData["action"] ?? "searchRoom";
+
+if ($action !== "searchRoom") {
+    sendJson([
+        "status" => "error",
+        "message" => "Invalid request"
+    ], 400);
+}
+
+$checkIn = $methodData["checkIn"] ?? $methodData["checkin"] ?? "";
+$checkOut = $methodData["checkOut"] ?? $methodData["checkout"] ?? "";
+$guestNumber = $methodData["guests"] ?? $methodData["guestNumber"] ?? "";
+
+if ($checkIn === "" || $checkOut === "" || $guestNumber === "") {
+    sendJson([
+        "status" => "error",
+        "message" => "All fields are required"
+    ], 400);
+}
+
+if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $checkIn)) {
+    sendJson([
+        "status" => "error",
+        "message" => "Check-in date is invalid"
+    ], 400);
+}
+
+if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $checkOut)) {
+    sendJson([
+        "status" => "error",
+        "message" => "Check-out date is invalid"
+    ], 400);
+}
+
+if (strtotime($checkIn) < strtotime(date("Y-m-d"))) {
+    sendJson([
+        "status" => "error",
+        "message" => "Check-in date must be today or later"
+    ], 400);
+}
+
+if (strtotime($checkOut) <= strtotime($checkIn)) {
+    sendJson([
+        "status" => "error",
+        "message" => "Check-out date must be after check-in date"
+    ], 400);
+}
+
+if (!is_numeric($guestNumber) || (int) $guestNumber < 1) {
+    sendJson([
+        "status" => "error",
+        "message" => "Guest number must be a valid number"
+    ], 400);
+}
+
+$DB = new db();
+$connection = $DB->connection();
+$rooms = getroom($connection, $checkIn, $checkOut, $guestNumber);
+
+sendJson([
+    "status" => "success",
+    "message" => "Available rooms loaded successfully",
+    "data" => $rooms
+]);
 ?>
