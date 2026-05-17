@@ -5,5 +5,5 @@
         <a href="#" class="nav-link" data-page="rooms" data-title="Rooms">Rooms</a>
         <a href="#" class="nav-link" data-page="contact" data-title="Contact">Contact</a>
     </div>
-    <a href="#" class="nav-btn nav-link" data-page="booking" data-title="Book Now">Book Now</a>
+    <a href="#" class="nav-btn nav-link" data-page="profile" data-title="Profile">Profile</a>
 </nav>
