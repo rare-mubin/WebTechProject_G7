@@ -38,6 +38,9 @@ function handleLinkClick(e) {
       if (page === 'bookingManagement') {
         loadScriptOnce('/WebTechProject_G7/Assets/js/bookingManagement.js', 'bookingManagement-js');
       }
+      if (page === 'dashboard') {
+        loadScriptOnce('/WebTechProject_G7/Assets/js/dashboard.js', 'dashboard-js');
+      }
     }
   };
   
