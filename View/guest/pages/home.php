@@ -44,40 +44,8 @@
     </div>
 
     <div class="about-images">
-        <img src="" alt="Hotel exterior">
-        <img src="" alt="Hotel room">
+        <img src="../../public/uploads/rooms/Ambiente-Skyline-03-1.jpg" alt="Hotel View">
+        <img src="../../public/uploads/rooms/Luxary-Bed-Room.jpg" alt="Hotel room">
     </div>
 </section>
 
-<section class="rooms-section">
-    <span>WHAT WE OFFER</span>
-    <h2>Discover Our Rooms</h2>
-
-    <div class="room-card-wrapper">
-        <div class="room-card">
-            <img src="" alt="Double Room">
-            <div class="room-info">
-                <h3>Double Room</h3>
-                <p><strong>$199</strong> / Per Night</p>
-                <a href="#" class="ajax-link" data-page="rooms" data-title="Rooms">MORE DETAILS</a>
-            </div>
-        </div>
-        <div class="room-card">
-            <img src="" alt="Premium King Room">
-            <div class="room-info">
-                <h3>Premium King Room</h3>
-                <p><strong>$159</strong> / Per Night</p>
-                <a href="#" class="ajax-link" data-page="rooms" data-title="Rooms">MORE DETAILS</a>
-            </div>
-        </div>
-
-        <div class="room-card">
-            <img src="" alt="Deluxe Room">
-            <div class="room-info">
-                <h3>Deluxe Room</h3>
-                <p><strong>$198</strong> / Per Night</p>
-                <a href="#" class="ajax-link" data-page="rooms" data-title="Rooms">MORE DETAILS</a>
-            </div>
-        </div>
-    </div>
-</section>
