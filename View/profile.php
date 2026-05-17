@@ -465,11 +465,6 @@
                             </div>
                         </form>
 
-                        <div class="hint">
-                            This frontend matches your teacher's required structure:
-                            `name`, `email`, `phone`, `nationality`, `preferred_room_type_id`, `special_requests`,
-                            and `subscribe_offers` as a separate checkbox.
-                        </div>
                     </div>
 
                     <div class="booking-card">
