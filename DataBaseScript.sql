@@ -68,7 +68,7 @@ CREATE TABLE `rooms` (
 
 CREATE TABLE `room_types` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` enum('Standard','Deluxe','Suite') NOT NULL,
+  `name` varchar(100) NOT NULL,
   `description` text DEFAULT NULL,
   `price_per_night` decimal(10,2) NOT NULL,
   `max_capacity` tinyint(3) UNSIGNED NOT NULL,
