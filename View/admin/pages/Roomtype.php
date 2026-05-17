@@ -7,9 +7,6 @@
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* roomtype css */
-
-/* RESET */
 
 *{
     margin:0;
@@ -17,15 +14,11 @@
     box-sizing:border-box;
     font-family:Arial, Helvetica, sans-serif;
 }
-/* MAIN */
-
 .main{
     display:flex;
     gap:25px;
     align-items:flex-start;
 }
-
-/* LEFT CARD */
 
 .rooms-card{
     flex:1;
@@ -35,7 +28,6 @@
     box-shadow:0 2px 12px rgba(0,0,0,0.05);
 }
 
-/* TOP BAR */
 
 .top-bar{
     display:flex;
@@ -49,7 +41,6 @@
     color:#222;
 }
 
-/* FILTER */
 
 .filter-box select{
     width:140px;
@@ -63,11 +54,11 @@
     font-size:14px;
 }
 
-/* TABLE HEAD */
 
-.table-head{
+
+    .table-head{
     display:grid;
-    grid-template-columns: 2.8fr 2fr 1fr 1fr 1fr 0.8fr;
+    grid-template-columns: 2.3fr 2fr 1fr 1fr 1.4fr 0.9fr;
     gap:20px;
     padding-bottom:16px;
     border-bottom:1px solid #ececec;
@@ -76,25 +67,20 @@
     font-weight:600;
 }
 
-/* ROOM ROW */
-
 .room-row{
     display:grid;
-    grid-template-columns: 2.8fr 2fr 1fr 1fr 1fr 0.8fr;
+    grid-template-columns: 2.3fr 2fr 1fr 1fr 1.4fr 0.9fr;
     gap:20px;
     align-items:center;
-    padding-top:22px;
+    padding:22px 0;
+    border-bottom:1px solid #f0f2f5;
 }
-
-/* ROOM LEFT */
 
 .room-left{
     display:flex;
     align-items:center;
     gap:15px;
 }
-
-/* IMAGE */
 
 .room-img{
     width:110px;
@@ -110,8 +96,6 @@
     object-fit:cover;
 }
 
-/* DETAILS */
-
 .room-details span{
     display:block;
     font-size:12px;
@@ -126,15 +110,11 @@
     margin-top:5px;
 }
 
-/* DESCRIPTION */
-
 .description{
     font-size:13px;
     line-height:22px;
     color:#666;
 }
-
-/* RATE */
 
 .rate{
     font-size:14px;
@@ -142,27 +122,61 @@
     color:#222;
 }
 
-/* CAPACITY */
-
 .capacity{
     font-size:13px;
     line-height:22px;
     color:#555;
 }
-
-/* AMENITIES */
-
 .amenities{
     font-size:13px;
     line-height:22px;
     color:#555;
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
 }
 
-/* ACTION */
+.amenity-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    border-radius:20px;
+    background:#f5f7fb;
+    border:1px solid #e2e7f0;
+    padding:5px 8px;
+}
+
+.amenity-chip i{
+    color:#3563ff;
+}
+
+.muted,
+.empty-state{
+    color:#888;
+    font-size:13px;
+}
 
 .action{
     display:flex;
     align-items:center;
+    gap:8px;
+}
+
+.edit-btn{
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:12px;
+    background:#eef3ff;
+    color:#3563ff;
+    font-size:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.edit-btn:hover{
+    background:#3563ff;
+    color:#fff;
 }
 
 .delete-btn{
@@ -181,9 +195,6 @@
     background:#ff3b3b;
     color:#fff;
 }
-
-/* RIGHT CARD */
-
 .add-room-card{
     width:380px;
     background:#fff;
@@ -192,15 +203,11 @@
     box-shadow:0 2px 12px rgba(0,0,0,0.05);
 }
 
-/* TITLE */
-
 .add-room-card h2{
     font-size:26px;
     color:#222;
     margin-bottom:25px;
 }
-
-/* INPUT BOX */
 
 .input-box{
     margin-bottom:22px;
@@ -214,8 +221,6 @@
     font-weight:600;
 }
 
-/* INPUT */
-
 .input-box input,
 textarea{
     width:100%;
@@ -227,14 +232,12 @@ textarea{
     background:#fff;
 }
 
-/* TEXTAREA */
 
 textarea{
     height:110px;
     resize:none;
 }
 
-/* AMENITIES BOX */
 
 .amenities-box{
     display:flex;
@@ -242,7 +245,7 @@ textarea{
     gap:12px;
 }
 
-/* ITEM */
+
 
 .amenity-item{
     display:flex;
@@ -255,8 +258,6 @@ textarea{
     cursor:pointer;
 }
 
-/* SMALL CHECKBOX */
-
 .amenity-item input[type="checkbox"]{
     width:13px;
     height:13px;
@@ -264,14 +265,12 @@ textarea{
     cursor:pointer;
 }
 
-/* TEXT */
+
 
 .amenity-item span{
     font-size:13px;
     color:#444;
 }
-
-/* UPLOAD BOX */
 
 .upload-box{
     height:170px;
@@ -285,15 +284,12 @@ textarea{
     text-align:center;
 }
 
-/* ICON */
 
 .upload-box i{
     font-size:30px;
     color:#4a70ff;
     margin-bottom:14px;
 }
-
-/* TEXT */
 
 .upload-box p{
     color:#4a70ff;
@@ -306,8 +302,6 @@ textarea{
     font-size:12px;
     color:#999;
 }
-
-/* BUTTON */
 
 .btn-box{
     margin-top:28px;
@@ -328,6 +322,23 @@ textarea{
 
 .add-btn:hover{
     background:#234de0;
+}
+
+.cancel-btn{
+    width:100%;
+    height:44px;
+    border:1px solid #dfe3ea;
+    border-radius:12px;
+    background:#fff;
+    color:#555;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:10px;
+}
+
+.cancel-btn:hover{
+    background:#f5f7fb;
 }
 .error{
     color:red;
@@ -374,82 +385,15 @@ textarea{
 
         </div>
 
-        <!-- ROOM -->
-        <div class="room-row">
-
-            <!-- IMAGE + DETAILS -->
-            <div class="room-left">
-
-                <div class="room-img">
-
-                    <img src="../Image/room1.jpg" alt="">
-
-                </div>
-
-                <div class="room-details">
-
-                    <span>ID:B17 </span>
-
-
-                    <h4>
-                        Luxury Queen Bed <br>
-                        With Garden View
-                    </h4>
-
-                </div>
-
-            </div>
-
-            <!-- DESCRIPTION -->
-            <div class="description">
-
-                Elegant modern room with luxury
-                lighting, pool access and premium
-                interior decoration.
-
-            </div>
-
-            <!-- RATE -->
-            <div class="rate">
-
-                $1280/Night
-
-            </div>
-
-            <!-- CAPACITY -->
-            <div class="capacity">
-
-                2 Adults <br>
-                1 Child
-
-            </div>
-
-            <!-- AMENITIES -->
-            <div class="amenities">
-
-                WiFi, AC, TV
-
-            </div>
-
-            <!-- ACTION -->
-            <div class="action">
-
-                <button class="delete-btn" type="button" title="Delete Room">
-
-                    <i class="fa-solid fa-trash"></i>
-
-                </button>
-
-            </div>
-
-        </div>
+        <div id="roomTypeRows"></div>
 
     </div>
 
     <!-- RIGHT SIDE -->
-    <form class="add-room-card" onsubmit="event.preventDefault(); addRoomType();" enctype="multipart/form-data">
+    <form id="roomTypeForm" class="add-room-card" onsubmit="event.preventDefault(); saveRoomType();" enctype="multipart/form-data">
 
-    <h2>Add Room Type</h2>
+    <h2 id="roomTypeFormTitle">Add Room Type</h2>
+    <input type="hidden" id="roomTypeId" name="roomTypeId">
 
     <div class="input-box">
         <label>Room Type Name</label>
@@ -480,23 +424,38 @@ textarea{
 
         <div class="amenities-box">
             <label class="amenity-item">
-                <input type="checkbox" id="wifi" name="wifi" value="1">
+                <input type="checkbox" id="wifi" name="amenities[]" value="WiFi">
                 <span>WiFi</span>
             </label>
 
             <label class="amenity-item">
-                <input type="checkbox" id="ac" name="ac" value="1">
-                <span>Air Condition</span>
+                <input type="checkbox" id="ac" name="amenities[]" value="AC">
+                <span>AC</span>
             </label>
 
             <label class="amenity-item">
-                <input type="checkbox" id="smartTv" name="smartTv" value="1">
-                <span>Smart TV</span>
+                <input type="checkbox" id="tv" name="amenities[]" value="TV">
+                <span>TV</span>
             </label>
 
             <label class="amenity-item">
-                <input type="checkbox" id="breakfast" name="breakfast" value="1">
-                <span>Breakfast</span>
+                <input type="checkbox" id="minibar" name="amenities[]" value="Minibar">
+                <span>Minibar</span>
+            </label>
+
+            <label class="amenity-item">
+                <input type="checkbox" id="safe" name="amenities[]" value="Safe">
+                <span>Safe</span>
+            </label>
+
+            <label class="amenity-item">
+                <input type="checkbox" id="bathtub" name="amenities[]" value="Bathtub">
+                <span>Bathtub</span>
+            </label>
+
+            <label class="amenity-item">
+                <input type="checkbox" id="balcony" name="amenities[]" value="Balcony">
+                <span>Balcony</span>
             </label>
         </div>
 
@@ -508,16 +467,17 @@ textarea{
 
         <label class="upload-box" for="roomImage">
             <i class="fa-regular fa-image"></i>
-            <input type="file" id="roomImage" name="roomImage" accept="image/*" style="display:none;">
+            <input type="file" id="roomImage" name="roomImage" accept="image/jpeg,image/png" style="display:none;">
             <p>Click to Upload or drag and drop</p>
-            <span>Max file size 25 MB</span>
+            <span>JPEG/PNG, max file size 2 MB</span>
         </label>
 
         <p id="roomImageError" class="error"></p>
     </div>
 
     <div class="btn-box">
-        <input class="add-btn" type="submit" value="Add Room Type">
+        <input id="roomTypeSubmit" class="add-btn" type="submit" value="Add Room Type">
+        <button id="cancelEditBtn" class="cancel-btn" type="button" onclick="resetRoomTypeForm();" style="display:none;">Cancel Edit</button>
     </div>
 
 </form>
