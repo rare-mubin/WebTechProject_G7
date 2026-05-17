@@ -65,7 +65,7 @@
 
             <div class="rightPart">
                 <div class="hotelRightImage">
-                    <img src="assets/images/login-side-image.jpg" alt="Hotel View">
+                    <img src="../public/uploads/rooms/rightSidePic.png" alt="Hotel View">
                 </div>
             </div>
 
