@@ -57,7 +57,8 @@
             margin-bottom: 8px;
         }
 
-        .sidebar input {
+        .sidebar input,
+        .sidebar select {
             width: 100%;
             padding: 8px;
             border: 1px solid #cccccc;
@@ -77,6 +78,12 @@
 
         .sidebar button:hover {
             background-color: #0a53be;
+        }
+
+        .message {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #0b5ed7;
         }
     </style>
 </head>
@@ -104,37 +111,44 @@
             <h2>Edit Booking</h2>
             <label>
                 Booking ID
-                <input type="text" id="editBookingId" />
+                <input type="text" id="editBookingId" readonly />
             </label>
             <label>
                 Guest Name
-                <input type="text" id="editGuestName" />
+                <input type="text" id="editGuestName" readonly />
             </label>
             <label>
                 Room Number
-                <input type="text" id="editRoomNumber" />
+                <input type="text" id="editRoomNumber" readonly />
             </label>
             <label>
                 Room Type
-                <input type="text" id="editRoomType" />
+                <input type="text" id="editRoomType" readonly />
             </label>
             <label>
                 Check-in
-                <input type="text" id="editCheckin" />
+                <input type="text" id="editCheckin" readonly />
             </label>
             <label>
                 Check-out
-                <input type="text" id="editCheckout" />
+                <input type="text" id="editCheckout" readonly />
             </label>
             <label>
                 Total Price
-                <input type="text" id="editTotalPrice" />
+                <input type="text" id="editTotalPrice" readonly />
             </label>
             <label>
                 Status
-                <input type="text" id="editStatus" />
+                <select id="editStatus">
+                    <option value="Pending">Pending</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Checked-In">Checked-In</option>
+                    <option value="Checked-Out">Checked-Out</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
             </label>
             <button type="button" id="saveBookingButton">Save</button>
+            <p id="bookingUpdateMessage" class="message"></p>
         </div>
     </div>
 </body>
