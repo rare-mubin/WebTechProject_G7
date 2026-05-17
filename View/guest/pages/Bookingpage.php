@@ -1,3 +1,9 @@
+<?php
+function e($value)
+{
+    return htmlspecialchars((string) $value, ENT_QUOTES, "UTF-8");
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +39,15 @@
   font-size: 22px;
   margin-bottom: 22px;
   color: #111;
+}
+
+.booking-error {
+  background: #fff0f0;
+  border: 1px solid #f0b4b4;
+  color: #a61111;
+  padding: 13px 16px;
+  border-radius: 7px;
+  margin-bottom: 22px;
 }
 
 .contact-title {
@@ -92,6 +107,11 @@
   background: #b66b10;
 }
 
+.book-submit:disabled {
+  background: #9aa0aa;
+  cursor: not-allowed;
+}
+
 .room-summary-card {
   overflow: hidden;
 }
@@ -101,6 +121,7 @@
   height: 300px;
   object-fit: cover;
   display: block;
+  background: #d9dde4;
 }
 
 .room-card-body {
@@ -172,7 +193,7 @@
 }
 
 .total-price-box input {
-  width: 120px;
+  width: 140px;
   border: none;
   background: #f3f5f9;
   color: #111;
@@ -202,28 +223,39 @@
 <body>
 <section class="booking-page">
   <div class="booking-layout">
-    <form class="booking-details"method="POST">
+    <form class="booking-details" method="POST" action="/WebTechProject_G7/Controller/BookingController.php">
       <h2>Booking Details</h2>
+
+      <?php if ($error !== "") { ?>
+        <div class="booking-error"><?php echo e($error); ?></div>
+      <?php } ?>
+
+      <?php if (!$roomType) { ?>
+        <div class="booking-error">Please choose a room from the availability results first.</div>
+      <?php } ?>
+
+      <input type="hidden" name="room_type_id" value="<?php echo e($roomTypeId); ?>">
+      <input type="hidden" name="user_id" value="<?php echo e($userId); ?>">
 
       <div class="form-grid">
         <div class="form-group">
           <label for="checkin">Check-in</label>
-          <input type="datetime-local" id="checkin" name="checkin" readonly>
+          <input type="date" id="checkin" name="checkin" value="<?php echo e($checkin); ?>" readonly required>
         </div>
 
         <div class="form-group">
           <label for="checkout">Check-out</label>
-          <input type="datetime-local" id="checkout" name="checkout" readonly>
+          <input type="date" id="checkout" name="checkout" value="<?php echo e($checkout); ?>" readonly required>
         </div>
 
         <div class="form-group">
           <label for="guests">No. of Guests</label>
-          <input type="number" id="guests" name="guests" min="1" value="1" readonly>
+          <input type="number" id="guests" name="guests" min="1" value="<?php echo e($guests); ?>" readonly required>
         </div>
 
         <div class="form-group">
           <label for="room_type">Room Type</label>
-          <input type="text" id="room_type" name="room_type" value="Deluxe Room" readonly>
+          <input type="text" id="room_type" name="room_type" value="<?php echo e($roomName); ?>" readonly>
         </div>
       </div>
 
@@ -232,57 +264,56 @@
       <div class="form-grid">
         <div class="form-group">
           <label for="guest_name">Name</label>
-          <input type="text" id="guest_name" name="guest_name" placeholder="Your name" required>
+          <input type="text" id="guest_name" name="guest_name" value="<?php echo e($guestName); ?>" placeholder="Your name" required>
         </div>
 
         <div class="form-group">
           <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" placeholder="Your phone number" required>
+          <input type="tel" id="phone" name="phone" value="<?php echo e($phone); ?>" placeholder="Your phone number" required>
         </div>
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="Your email address" required>
+          <input type="email" id="email" name="email" value="<?php echo e($email); ?>" placeholder="Your email address" required>
         </div>
 
         <div class="form-group">
           <label for="nationality">Nationality</label>
-          <input type="text" id="nationality" name="nationality" placeholder="Your nationality" required>
+          <input type="text" id="nationality" name="nationality" value="<?php echo e($nationality); ?>" placeholder="Your nationality" required>
         </div>
       </div>
 
-      <button type="submit" class="book-submit">Book Now</button>
+      <button type="submit" class="book-submit" <?php echo (!$roomType || $nights < 1 || $userId === "") ? "disabled" : ""; ?>>Confirm Booking</button>
     </form>
 
     <aside class="room-summary-card">
-      <img src="" alt="Deluxe Room">
+      <img src="<?php echo e($roomType["thumbnail_path"] ?? ""); ?>" alt="<?php echo e($roomName); ?>">
 
       <div class="room-card-body">
         <div class="room-title-row">
-          <h2>Deluxe Room</h2>
-          <strong>$250</strong>
+          <h2><?php echo e($roomName); ?></h2>
+          <strong><?php echo e(number_format((float) ($roomType["price_per_night"] ?? 0), 2)); ?></strong>
         </div>
 
         <p class="room-desc">
-          The room has a comfortable bed, elegant lighting, relaxing interior,
-          and premium facilities for a peaceful hotel stay.
+          <?php echo e($roomType["description"] ?? "Choose an available room to see the booking summary."); ?>
         </p>
 
         <h3>Room Amenities</h3>
 
         <div class="amenities-list">
-          <span>WiFi</span>
-          <span>AC</span>
-          <span>TV</span>
-          <span>Minibar</span>
-          <span>Safe</span>
-          <span>Bathtub</span>
-          <span>Balcony</span>
+          <?php if (count($amenities) > 0) { ?>
+            <?php foreach ($amenities as $amenity) { ?>
+              <span><?php echo e($amenity); ?></span>
+            <?php } ?>
+          <?php } else { ?>
+              <span>Not listed</span>
+          <?php } ?>
         </div>
 
         <div class="total-price-box">
           <span>Total Price</span>
-          <input type="text" name="total_price" value="$250" readonly>
+          <input type="text" name="total_price" value="<?php echo e(number_format($totalPrice, 2)); ?>" readonly>
         </div>
       </div>
     </aside>
