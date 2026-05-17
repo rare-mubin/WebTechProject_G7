@@ -5,8 +5,29 @@ include "../Model/dataConnection.php";
 include "../Model/BookingModel.php";
 include "../Model/RoomModel.php";
 
+function sendJsonResponse($payload, $statusCode = 200)
+{
+    http_response_code($statusCode);
+    header("Content-Type: application/json");
+    echo json_encode($payload);
+    exit;
+}
+
+function isJsonRequest()
+{
+    return (isset($_SERVER["HTTP_X_REQUESTED_WITH"]) && strtolower($_SERVER["HTTP_X_REQUESTED_WITH"]) === "xmlhttprequest")
+        || (isset($_SERVER["HTTP_ACCEPT"]) && strpos($_SERVER["HTTP_ACCEPT"], "application/json") !== false);
+}
+
 function redirectWithBookingError($message)
 {
+    if (isJsonRequest()) {
+        sendJsonResponse([
+            "status" => "error",
+            "message" => $message
+        ], 400);
+    }
+
     $query = $_POST;
     unset($query["guest_name"], $query["phone"], $query["email"], $query["nationality"]);
     $query["error"] = $message;
@@ -16,6 +37,13 @@ function redirectWithBookingError($message)
 }
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    if (isJsonRequest()) {
+        sendJsonResponse([
+            "status" => "error",
+            "message" => "Invalid request method."
+        ], 405);
+    }
+
     header("Location: /WebTechProject_G7/View/guest/Homepage.php");
     exit;
 }
@@ -104,6 +132,16 @@ try {
     }
 
     $connection->commit();
+
+    if (isJsonRequest()) {
+        sendJsonResponse([
+            "status" => "success",
+            "message" => "Booking created successfully.",
+            "booking_id" => $bookingId,
+            "redirect" => "/WebTechProject_G7/Controller/BookingConfirmationController.php?booking_id=" . $bookingId
+        ], 200);
+    }
+
     header("Location: /WebTechProject_G7/Controller/BookingConfirmationController.php?booking_id=" . $bookingId);
     exit;
 } catch (Throwable $exception) {

@@ -116,6 +116,7 @@
             width: 100%;
             height: 100vh;
             background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45));
+            background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1600&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             display: flex;
