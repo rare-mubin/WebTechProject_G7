@@ -13,7 +13,7 @@
             <div class="leftPart">
                 <form class="loginForm" onsubmit="return loginUser();" method="post">
 
-                    <img src="../Assets/images/logo.png" alt="Hotel Logo" class="logo-image">
+                    <img src="../public/uploads/rooms/leftSideLogo.png" alt="Hotel Logo" class="logo-image">
 
                     <h1 class="welcomeTitle">Welcome to MoonLight Hotel</h1>
                     <p class="welcomeTitleErNiche">Log into your account</p>
@@ -47,7 +47,7 @@
 
             <div class="rightPart">
                 <div class="hotelRightImage">
-                    <img src="../Assets/images/login-side-image.jpg" alt="Hotel View">
+                    <img src="../public/uploads/rooms/rightSidePic.png" alt="Hotel View">
                 </div>
             </div>
 

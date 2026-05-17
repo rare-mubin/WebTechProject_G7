@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -175,6 +176,11 @@ body {
     color: #ffffff;
 }
 
+.status.cancelled {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
 @media (max-width: 768px) {
     .main {
         padding: 18px;
@@ -211,6 +217,7 @@ body {
                     </select>
                 </div>
             </div>
+            <p id="bookingMessage" style="color: red; text-align: center; margin-top: 10px;"></p>
             <div class="table-wrap">
                 <table class="booking-table">
                     <thead>
@@ -224,46 +231,12 @@ body {
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="room-info">
-                                    <img src="../Image/room1.jpg" alt="Luxury Queen Bed">
-
-                                    <div>
-                                        <span>ID: B17</span>
-                                        <h4>
-                                            Luxury Queen Bed <br>
-                                            With Garden View
-                                        </h4>
-                                    </div>
-                                </div>
-                            </td>
-
-                            <td class="description">
-                                Elegant modern room with luxury lighting,
-                                pool access and premium interior decoration.
-                            </td>
-
-                            <td class="rate">$1280/Night</td>
-
-                            <td>20 May 2026</td>
-                            <td>23 May 2026</td>
-
-                            <td>
-                                <span class="status booked">Booked</span>
-                            </td>
-
-                            <td>
-                                <button class="cancel-btn" type="button">
-                                    Cancel
-                                </button>
-                            </td>
-                        </tr>
+                    <tbody id="bookingsTableBody">
                     </tbody>
                 </table>
             </div>
         </section>
     </main>
+    <script src="../../../Assets/js/mybooking.js"></script>
 </body>
 </html>

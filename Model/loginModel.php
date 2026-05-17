@@ -3,17 +3,17 @@ class LoginModel
 {
     public function validateUser($connection, $email, $password)
     {
-        $stmt = $connection->prepare("SELECT id, name, email, password_hash, role FROM users WHERE email = ? LIMIT 1");
+        $sql = $connection->prepare("SELECT id, name, email, password_hash, role FROM users WHERE email = ? LIMIT 1");
 
-        if (!$stmt) {
+        if (!$sql) {
             return false;
         }
 
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $sql->bind_param("s", $email);
+        $sql->execute();
+        $result = $sql->get_result();
         $user = $result->fetch_assoc();
-        $stmt->close();
+        $sql->close();
 
         if ($user && password_verify($password, $user['password_hash'])) {
             return $user;

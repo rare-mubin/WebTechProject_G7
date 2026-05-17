@@ -4,6 +4,7 @@ function loginUser()
 
     let email = document.getElementById("email").value;
     let password = document.getElementById("password").value;
+    let rememberMe = document.getElementById("moneRekhoAmake").checked ? "1" : "0";
 
     if (!email) {
         document.getElementById("emailError").innerText = "Email is required";
@@ -26,7 +27,10 @@ function loginUser()
         if (xhttp.readyState === 4 && xhttp.status === 200) {
             let response = xhttp.responseText.trim();
 
-            if (response === "OK") {
+            if (response === "admin") {
+                alert("Login successful!");
+                window.location.href = "admin/adminhome.php";
+            } else if (response === "guest") {
                 alert("Login successful!");
                 window.location.href = "guest/Homepage.php";
             } else {
@@ -37,5 +41,10 @@ function loginUser()
 
     xhttp.open("POST", "../Controller/loginValidation.php", true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send("action=Login&email=" + encodeURIComponent(email) + "&password=" + encodeURIComponent(password));
+    xhttp.send(
+        "action=Login" +
+        "&email=" + encodeURIComponent(email) +
+        "&password=" + encodeURIComponent(password) +
+        "&remember_me=" + encodeURIComponent(rememberMe)
+    );
 }

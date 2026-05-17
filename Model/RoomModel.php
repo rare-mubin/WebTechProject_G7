@@ -7,42 +7,14 @@ function getroom($connection, $checkin, $checkout, $guests)
         return [];
     }
 
-    $sql = "SELECT
-                rt.id,
-                rt.name,
-                rt.description,
-                rt.price_per_night,
-                rt.max_capacity,
-                rt.thumbnail_path,
-                rt.amenities,
-                (DATEDIFF(?, ?) * rt.price_per_night) AS total_price
-            FROM room_types rt
-            WHERE rt.max_capacity >= ?
-            AND EXISTS (
-                SELECT 1
-                FROM rooms r
-                WHERE r.room_type_id = rt.id
-                AND r.status = 'available'
-                AND NOT EXISTS (
-                    SELECT 1
-                    FROM bookings b
-                    WHERE b.room_id = r.id
-                    AND b.status IN ('Confirmed', 'Checked-In')
-                    AND b.checkin_date < ?
-                    AND b.checkout_date > ?
-                )
-            )
-            ORDER BY rt.price_per_night ASC";
-
-    $stmt = $connection->prepare($sql);
-    if (!$stmt) {
+    $sql = "SELECT rt.id, rt.name, rt.description, rt.price_per_night, rt.max_capacity, rt.thumbnail_path, rt.amenities, 
+    (DATEDIFF('".$checkout."', '".$checkin."') * rt.price_per_night) AS total_price FROM room_types rt WHERE rt.max_capacity >= '".$guests."' 
+    AND EXISTS (SELECT 1 FROM rooms r WHERE r.room_type_id = rt.id AND r.status = 'available' AND NOT EXISTS (SELECT 1 FROM bookings b WHERE b.room_id = r.id AND b.status IN ('Confirmed', 'Checked-In') 
+    AND b.checkin_date < '".$checkout."' AND b.checkout_date > '".$checkin."')) ORDER BY rt.price_per_night ASC";
+    $result = $connection->query($sql);
+    if (!$result) {
         return [];
     }
-
-    $guestCount = (int) $guests;
-    $stmt->bind_param("ssiss", $checkout, $checkin, $guestCount, $checkout, $checkin);
-    $stmt->execute();
-    $result = $stmt->get_result();
 
     $rooms = [];
     while ($row = $result->fetch_assoc()) {
@@ -59,7 +31,6 @@ function getroom($connection, $checkin, $checkout, $guests)
         $rooms[] = $row;
     }
 
-    $stmt->close();
     return $rooms;
 }
 
@@ -69,17 +40,9 @@ function getRoomTypeById($connection, $roomTypeId)
         return null;
     }
 
-    $stmt = $connection->prepare("SELECT * FROM room_types WHERE id = ?");
-    if (!$stmt) {
-        return null;
-    }
-
-    $id = (int) $roomTypeId;
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $sql = "SELECT * FROM room_types WHERE id = '".$roomTypeId."'";
+    $result = $connection->query($sql);
     $roomType = $result->fetch_assoc();
-    $stmt->close();
 
     if (!$roomType) {
         return null;
@@ -95,21 +58,10 @@ function getRoomTypeById($connection, $roomTypeId)
 
 class RoomModel
 {
-    private $connection;
-
-    public function __construct()
+    public function listRooms($connection)
     {
-        $db = new db();
-        $this->connection = $db->connection();
-    }
-
-    public function listRooms()
-    {
-        $sql = "SELECT r.id, r.room_type_id, r.room_number, r.floor, r.status, "
-            . "rt.name AS room_type_name, rt.price_per_night, rt.max_capacity, rt.thumbnail_path, rt.amenities "
-            . "FROM rooms r JOIN room_types rt ON r.room_type_id = rt.id "
-            . "ORDER BY r.room_number ASC";
-        $result = $this->connection->query($sql);
+        $sql = "SELECT r.id, r.room_type_id, r.room_number, r.floor, r.status, rt.name AS room_type_name, rt.price_per_night, rt.max_capacity, rt.thumbnail_path, rt.amenities FROM rooms r JOIN room_types rt ON r.room_type_id = rt.id ORDER BY r.room_number ASC";
+        $result = $connection->query($sql);
         $rows = [];
 
         if ($result) {
@@ -123,43 +75,36 @@ class RoomModel
         return $rows;
     }
 
-    public function createRoom($roomTypeId, $roomNumber, $floor, $status)
+    public function createRoom($connection, $roomTypeId, $roomNumber, $floor, $status)
     {
-        $stmt = $this->connection->prepare(
-            "INSERT INTO rooms (room_type_id, room_number, floor, status) VALUES (?, ?, ?, ?)"
-        );
-        $stmt->bind_param("isis", $roomTypeId, $roomNumber, $floor, $status);
-        return $stmt->execute();
+        $sql = "INSERT INTO rooms (room_type_id, room_number, floor, status) VALUES ('".$roomTypeId."', '".$roomNumber."', '".$floor."', '".$status."')";
+        $result = $connection->query($sql);
+        return $result;
     }
 
-    public function updateRoom($id, $roomTypeId, $roomNumber, $floor, $status)
+    public function updateRoom($connection, $id, $roomTypeId, $roomNumber, $floor, $status)
     {
-        $stmt = $this->connection->prepare(
-            "UPDATE rooms SET room_type_id = ?, room_number = ?, floor = ?, status = ? WHERE id = ?"
-        );
-        $stmt->bind_param("isisi", $roomTypeId, $roomNumber, $floor, $status, $id);
-        return $stmt->execute();
+        $sql = "UPDATE rooms SET room_type_id = '".$roomTypeId."', room_number = '".$roomNumber."', floor = '".$floor."', status = '".$status."' WHERE id = '".$id."'";
+        $result = $connection->query($sql);
+        return $result;
     }
 
-    public function deleteRoom($id)
+    public function deleteRoom($connection, $id)
     {
-        $stmt = $this->connection->prepare("DELETE FROM rooms WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        return $stmt->execute();
+        $sql = "DELETE FROM rooms WHERE id = '".$id."'";
+        $result = $connection->query($sql);
+        return $result;
     }
 
-    public function roomTypeExists($roomTypeId)
+    public function roomTypeExists($connection, $roomTypeId)
     {
-        $stmt = $this->connection->prepare("SELECT id FROM room_types WHERE id = ?");
-        $stmt->bind_param("i", $roomTypeId);
-        $stmt->execute();
-        return $stmt->get_result()->num_rows > 0;
+        $sql = "SELECT id FROM room_types WHERE id = '".$roomTypeId."'";
+        $result = $connection->query($sql);
+        return $result && $result->num_rows > 0;
     }
 
-    public function getLastError()
+    public function getLastError($connection)
     {
-        return $this->connection->error;
+        return $connection->error;
     }
 }
-
-?>

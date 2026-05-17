@@ -3,7 +3,7 @@ class ProfileModel
 {
     public function getUserProfile($connection, $userId)
     {
-        $stmt = $connection->prepare(
+        $sql = $connection->prepare(
             "SELECT u.id, u.name, u.email, u.phone, u.nationality, u.role,
                     u.preferred_room_type_id, u.special_requests, rt.name AS preferred_room_type_name
              FROM users u
@@ -12,16 +12,16 @@ class ProfileModel
              LIMIT 1"
         );
 
-        if (!$stmt) {
+        if (!$sql) {
             return null;
         }
 
         $id = (int) $userId;
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $sql->bind_param("i", $id);
+        $sql->execute();
+        $result = $sql->get_result();
         $user = $result->fetch_assoc();
-        $stmt->close();
+        $sql->close();
 
         return $user ?: null;
     }
@@ -47,41 +47,41 @@ class ProfileModel
         $id = (int) $userId;
 
         if ($preferredRoomTypeId === "") {
-            $stmt = $connection->prepare(
+            $sql = $connection->prepare(
                 "UPDATE users
                  SET name = ?, email = ?, phone = ?, nationality = ?, preferred_room_type_id = NULL, special_requests = ?
                  WHERE id = ?"
             );
 
-            if (!$stmt) {
+            if (!$sql) {
                 return false;
             }
 
-            $stmt->bind_param("sssssi", $name, $email, $phone, $nationality, $specialRequests, $id);
+            $sql->bind_param("sssssi", $name, $email, $phone, $nationality, $specialRequests, $id);
         } else {
-            $stmt = $connection->prepare(
+            $sql = $connection->prepare(
                 "UPDATE users
                  SET name = ?, email = ?, phone = ?, nationality = ?, preferred_room_type_id = ?, special_requests = ?
                  WHERE id = ?"
             );
 
-            if (!$stmt) {
+            if (!$sql) {
                 return false;
             }
 
             $preferredId = (int) $preferredRoomTypeId;
-            $stmt->bind_param("ssssisi", $name, $email, $phone, $nationality, $preferredId, $specialRequests, $id);
+            $sql->bind_param("ssssisi", $name, $email, $phone, $nationality, $preferredId, $specialRequests, $id);
         }
 
-        $success = $stmt->execute();
-        $stmt->close();
+        $success = $sql->execute();
+        $sql->close();
 
         return $success;
     }
 
     public function getUpcomingBooking($connection, $userId)
     {
-        $stmt = $connection->prepare(
+        $sql = $connection->prepare(
             "SELECT b.checkin_date, b.checkout_date, b.status, rt.name AS room_type_name
              FROM bookings b
              INNER JOIN rooms r ON r.id = b.room_id
@@ -93,16 +93,16 @@ class ProfileModel
              LIMIT 1"
         );
 
-        if (!$stmt) {
+        if (!$sql) {
             return null;
         }
 
         $id = (int) $userId;
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $sql->bind_param("i", $id);
+        $sql->execute();
+        $result = $sql->get_result();
         $booking = $result->fetch_assoc();
-        $stmt->close();
+        $sql->close();
 
         return $booking ?: null;
     }
