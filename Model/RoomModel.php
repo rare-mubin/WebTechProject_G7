@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . "/dataConnection.php";
+
 function getroom($connection, $checkin, $checkout, $guests)
 {
     if (!$connection) {
@@ -89,7 +91,7 @@ function getRoomTypeById($connection, $roomTypeId)
     $roomType["max_capacity"] = (int) $roomType["max_capacity"];
 
     return $roomType;
-require_once __DIR__ . "/dataConnection.php";
+}
 
 class RoomModel
 {
@@ -159,4 +161,5 @@ class RoomModel
         return $this->connection->error;
     }
 }
+
 ?>

@@ -80,7 +80,7 @@ function searchform() {
 
   xhttp.open(
     "GET",
-    "/WebTechProject_G7/api/rooms/available/?checkin=" + encodeURIComponent(checkInDate) +
+    "/WebTechProject_G7/Controller/SearchFormValidate.php?checkin=" + encodeURIComponent(checkInDate) +
       "&checkout=" + encodeURIComponent(checkOutDate) +
       "&guests=" + encodeURIComponent(guests),
     true
@@ -94,7 +94,7 @@ function openBookingPage(roomTypeId) {
   let guests = document.getElementById("guests").value;
 
   window.location.href =
-    "/WebTechProject_G7/View/guest/pages/Bookingpage.php?room_type_id=" + encodeURIComponent(roomTypeId) +
+    "/WebTechProject_G7/Controller/BookingPageController.php?room_type_id=" + encodeURIComponent(roomTypeId) +
     "&checkin=" + encodeURIComponent(checkInDate) +
     "&checkout=" + encodeURIComponent(checkOutDate) +
     "&guests=" + encodeURIComponent(guests);

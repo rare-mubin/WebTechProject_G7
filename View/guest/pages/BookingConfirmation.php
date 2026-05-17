@@ -1,20 +1,7 @@
 <?php
-include "../../../Model/dataConnection.php";
-include "../../../Model/BookingModel.php";
-
 function e($value)
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, "UTF-8");
-}
-
-$bookingId = $_GET["booking_id"] ?? "";
-$booking = null;
-
-if ($bookingId !== "") {
-    $DB = new db();
-    $connection = $DB->connection();
-    $bookingModel = new BookingModel($connection);
-    $booking = $bookingModel->getBookingConfirmation($bookingId);
 }
 ?>
 <!DOCTYPE html>

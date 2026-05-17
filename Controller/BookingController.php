@@ -11,7 +11,7 @@ function redirectWithBookingError($message)
     unset($query["guest_name"], $query["phone"], $query["email"], $query["nationality"]);
     $query["error"] = $message;
 
-    header("Location: /WebTechProject_G7/View/guest/pages/Bookingpage.php?" . http_build_query($query));
+    header("Location: /WebTechProject_G7/Controller/BookingPageController.php?" . http_build_query($query));
     exit;
 }
 
@@ -104,7 +104,7 @@ try {
     }
 
     $connection->commit();
-    header("Location: /WebTechProject_G7/View/guest/pages/BookingConfirmation.php?booking_id=" . $bookingId);
+    header("Location: /WebTechProject_G7/Controller/BookingConfirmationController.php?booking_id=" . $bookingId);
     exit;
 } catch (Throwable $exception) {
     $connection->rollback();
