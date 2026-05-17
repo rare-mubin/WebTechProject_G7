@@ -174,6 +174,29 @@
             font-size:13px;
             line-height:22px;
             color:#555;
+            display:flex;
+            flex-wrap:wrap;
+            gap:7px;
+        }
+
+        .amenity-chip{
+            display:inline-flex;
+            align-items:center;
+            gap:5px;
+            border-radius:20px;
+            background:#f5f7fb;
+            border:1px solid #e2e7f0;
+            padding:5px 8px;
+        }
+
+        .amenity-chip i{
+            color:#3563ff;
+        }
+
+        .muted,
+        .empty-state{
+            color:#888;
+            font-size:13px;
         }
 
         /* STATUS */
@@ -206,6 +229,24 @@
         .action{
             display:flex;
             align-items:center;
+            gap:8px;
+        }
+
+        .edit-btn{
+            width:38px;
+            height:38px;
+            border:none;
+            border-radius:12px;
+            background:#eef3ff;
+            color:#3563ff;
+            font-size:15px;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .edit-btn:hover{
+            background:#3563ff;
+            color:#fff;
         }
 
         .delete-btn{
@@ -303,6 +344,23 @@
             background:#234de0;
         }
 
+        .cancel-btn{
+            width:100%;
+            height:44px;
+            border:1px solid #dfe3ea;
+            border-radius:12px;
+            background:#fff;
+            color:#555;
+            font-size:14px;
+            font-weight:600;
+            cursor:pointer;
+            margin-top:10px;
+        }
+
+        .cancel-btn:hover{
+            background:#f5f7fb;
+        }
+
     </style>
 </head>
 
@@ -321,18 +379,14 @@
             <!-- FILTER BOX -->
             <div class="filter-box">
 
-                <select>
-                    <option>All Type</option>
-                    <option>Luxury Suite</option>
-                    <option>Deluxe Room</option>
-                    <option>Family Room</option>
+                <select id="roomTypeFilter" onchange="renderRooms();">
+                    <option value="">All Type</option>
                 </select>
 
-                <select>
-                    <option>All Status</option>
-                    <option>Available</option>
-                    <option>Booked</option>
-                    <option>Maintenance</option>
+                <select id="roomStatusFilter" onchange="renderRooms();">
+                    <option value="">All Status</option>
+                    <option value="available">Available</option>
+                    <option value="maintenance">Maintenance</option>
                 </select>
 
             </div>
@@ -351,81 +405,15 @@
 
         </div>
 
-        <!-- ROOM ROW -->
-        <div class="room-row">
-
-            <!-- ROOM IMAGE + DETAILS -->
-            <div class="room-left">
-
-                <div class="room-img">
-
-                    <img src="../Image/room1.jpg" alt="">
-
-                </div>
-
-                <div class="room-details">
-
-                    <span>Room: 101</span>
-
-                    <span>1st Floor</span>
-
-                    <h4>
-                        Luxury Queen Bed <br>
-                        With Garden View
-                    </h4>
-
-                </div>
-
-            </div>
-
-            <!-- RATE -->
-            <div class="rate">
-
-                $1280/Night
-
-            </div>
-
-            <!-- CAPACITY -->
-            <div class="capacity">
-
-                2 Adults <br>
-                1 Child
-
-            </div>
-
-            <!-- AMENITIES -->
-            <div class="amenities">
-
-                WiFi, AC, TV
-
-            </div>
-
-            <!-- STATUS -->
-            <div class="status green">
-
-                Available
-
-            </div>
-
-            <!-- ACTION -->
-            <div class="action">
-
-                <button class="delete-btn" type="button" title="Delete Room">
-
-                    <i class="fa-solid fa-trash"></i>
-
-                </button>
-
-            </div>
-
-        </div>
+        <div id="roomRows"></div>
 
     </div>
 
     <!-- RIGHT SIDE / ADD ROOM FORM -->
-    <form class="add-room-card" onsubmit="event.preventDefault(); addRoom();">
+    <form id="roomForm" class="add-room-card" onsubmit="event.preventDefault(); addRoom();">
 
-        <h2>Add Room</h2>
+        <h2 id="roomFormTitle">Add Room</h2>
+        <input type="hidden" id="roomId" name="roomId">
 
         <!-- ROOM TYPE -->
         <div class="input-box">
@@ -434,9 +422,6 @@
 
             <select id="roomType" name="roomType">
                 <option value="">Select Room Type</option>
-                <option value="Luxury Suite">Luxury Suite</option>
-                <option value="Deluxe Room">Deluxe Room</option>
-                <option value="Family Room">Family Room</option>
             </select>
 
             <!-- ROOM TYPE ERROR -->
@@ -468,22 +453,25 @@
 
         </div>
 
-        <!-- PER NIGHT RATE -->
+        <!-- STATUS -->
         <div class="input-box">
 
-            <label>Per Night Rate</label>
+            <label>Status</label>
 
-            <input type="text" id="perNightRate" name="perNightRate" placeholder="Per night rate">
+            <select id="status" name="status">
+                <option value="available">Available</option>
+                <option value="maintenance">Maintenance</option>
+            </select>
 
-            <!-- PER NIGHT RATE ERROR -->
-            <p id="perNightRateError" class="error"></p>
+            <p id="statusError" class="error"></p>
 
         </div>
 
         <!-- BUTTON -->
         <div class="btn-box">
 
-            <input class="add-btn" type="submit" value="Add Room">
+            <input id="roomSubmit" class="add-btn" type="submit" value="Add Room">
+            <button id="cancelRoomEditBtn" class="cancel-btn" type="button" onclick="resetRoomForm();" style="display:none;">Cancel Edit</button>
 
         </div>
 
