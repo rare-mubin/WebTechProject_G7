@@ -32,5 +32,44 @@ class BookingMngModel
 
 		return $rows;
 	}
+
+	public function bookingExists($bookingId)
+	{
+		$stmt = $this->connection->prepare("SELECT id FROM bookings WHERE id = ? LIMIT 1");
+
+		if (!$stmt) {
+			return false;
+		}
+
+		$id = (int) $bookingId;
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$exists = $result->num_rows > 0;
+		$stmt->close();
+
+		return $exists;
+	}
+
+	public function updateBookingStatus($bookingId, $status)
+	{
+		$stmt = $this->connection->prepare("UPDATE bookings SET status = ? WHERE id = ?");
+
+		if (!$stmt) {
+			return false;
+		}
+
+		$id = (int) $bookingId;
+		$stmt->bind_param("si", $status, $id);
+		$success = $stmt->execute();
+		$stmt->close();
+
+		return $success;
+	}
+
+	public function getLastError()
+	{
+		return $this->connection->error;
+	}
 }
 ?>
