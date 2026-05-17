@@ -14,7 +14,7 @@ function respondRoom($status, $message, $data = null)
     exit;
 }
 
-function validateRoomInput($model)
+function validateRoomInput($connection, $model)
 {
     $roomTypeId = trim($_POST["roomType"] ?? "");
     $roomNumber = trim($_POST["roomNumber"] ?? "");
@@ -22,7 +22,7 @@ function validateRoomInput($model)
     $status = trim($_POST["status"] ?? "available");
     $allowedStatuses = ["available", "maintenance"];
 
-    if ($roomTypeId === "" || !ctype_digit($roomTypeId) || !$model->roomTypeExists((int) $roomTypeId)) {
+    if ($roomTypeId === "" || !ctype_digit($roomTypeId) || !$model->roomTypeExists($connection, (int) $roomTypeId)) {
         respondRoom("error", "Please select a valid room type");
     }
     if ($roomNumber === "") {
@@ -44,11 +44,13 @@ function validateRoomInput($model)
 }
 
 try {
+    $DB = new db();
+    $connection = $DB->connection();
     $action = $_POST["action"] ?? "";
     $model = new RoomModel();
 
     if ($action === "listRooms") {
-        respondRoom("success", "Room list loaded", $model->listRooms());
+        respondRoom("success", "Room list loaded", $model->listRooms($connection));
     }
 
     if ($action === "listRoomTypes") {
@@ -58,19 +60,19 @@ try {
 
     if ($action === "Add" || $action === "Update") {
         $id = (int) ($_POST["roomId"] ?? 0);
-        $input = validateRoomInput($model);
+        $input = validateRoomInput($connection, $model);
 
         if ($action === "Add") {
-            $saved = $model->createRoom($input["roomTypeId"], $input["roomNumber"], $input["floor"], $input["status"]);
+            $saved = $model->createRoom($connection, $input["roomTypeId"], $input["roomNumber"], $input["floor"], $input["status"]);
         } else {
             if ($id <= 0) {
                 respondRoom("error", "Invalid room");
             }
-            $saved = $model->updateRoom($id, $input["roomTypeId"], $input["roomNumber"], $input["floor"], $input["status"]);
+            $saved = $model->updateRoom($connection, $id, $input["roomTypeId"], $input["roomNumber"], $input["floor"], $input["status"]);
         }
 
         if (!$saved) {
-            respondRoom("error", "Could not save room. " . $model->getLastError());
+            respondRoom("error", "Could not save room. " . $model->getLastError($connection));
         }
 
         respondRoom("success", $action === "Add" ? "Room added successfully" : "Room updated successfully");
@@ -81,7 +83,7 @@ try {
         if ($id <= 0) {
             respondRoom("error", "Invalid room");
         }
-        if (!$model->deleteRoom($id)) {
+        if (!$model->deleteRoom($connection, $id)) {
             respondRoom("error", "Could not delete room. This room may have bookings.");
         }
         respondRoom("success", "Room deleted successfully");
