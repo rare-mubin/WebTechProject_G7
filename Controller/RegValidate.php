@@ -47,8 +47,9 @@ if(isset($_POST['action']) && $_POST['action'] === 'Add') {
           echo "Password is required";
         }
         else{
+              $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
               $signUpModel = new SignUpModel();
-              $result = $signUpModel->addGuest($connection,'users', $name, $email, $phone, $nationality, $password); 
+              $result = $signUpModel->addGuest($connection,'users', $name, $email, $phone, $nationality, $hashedPassword); 
             echo "OK";
         }
 
