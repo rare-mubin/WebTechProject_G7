@@ -26,6 +26,7 @@
             </div>
             <button type="submit"  class="booking-btn">Book Now</button>
         </form>
+        <p id="err"></p>
     </div>
 </section>
 <section id="roomResult">
