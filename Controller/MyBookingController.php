@@ -3,98 +3,88 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once __DIR__ . '/../Model/dataConnection.php';
-require_once __DIR__ . '/../Model/MyBookingModel.php';
+require_once __DIR__ . "/../Model/dataConnection.php";
+require_once __DIR__ . "/../Model/MyBookingModel.php";
 
-header('Content-Type: application/json');
-
-if (!isset($_SESSION['user_id'])) {
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Please log in first.'
-    ]);
+function sendJsonResponse($payload, $statusCode = 200)
+{
+    http_response_code($statusCode);
+    header("Content-Type: application/json");
+    echo json_encode($payload);
     exit;
 }
 
-try {
-    $db = new db();
-    $connection = $db->connection();
-} catch (Exception $e) {
-    echo json_encode([
-        'status' => 'error',
-        'message' => 'Database connection failed.'
-    ]);
-    exit;
+if (!isset($_SESSION["user_id"])) {
+    sendJsonResponse([
+        "status" => "error",
+        "message" => "Please log in first."
+    ], 401);
 }
+
+$DB = new db();
+$connection = $DB->connection();
 
 $model = new MyBookingModel();
-$action = $_POST['action'] ?? '';
+$action = $_POST["action"] ?? "";
 
-if ($action === 'getMyBookings') {
-    $bookings = $model->getMyBookings($connection, $_SESSION['user_id']);
+if ($action === "getMyBookings") {
+    $bookings = $model->getMyBookings($connection, $_SESSION["user_id"]);
 
     foreach ($bookings as &$booking) {
-        $checkinTimestamp = strtotime($booking['checkin_date']);
-        $cancelDeadline = strtotime('+1 day');
-        $booking['can_cancel'] = in_array($booking['status'], ['Pending', 'Confirmed']) && $checkinTimestamp > $cancelDeadline;
+        $checkinTimestamp = strtotime($booking["checkin_date"]);
+        $cancelDeadline = strtotime("+1 day");
+        $booking["can_cancel"] = in_array($booking["status"], ["Pending", "Confirmed"]) && $checkinTimestamp > $cancelDeadline;
     }
     unset($booking);
 
-    echo json_encode([
-        'status' => 'success',
-        'data' => $bookings
+    sendJsonResponse([
+        "status" => "success",
+        "data" => $bookings
     ]);
-    exit;
 }
 
-if ($action === 'cancelBooking') {
-    $bookingId = $_POST['booking_id'] ?? '';
+if ($action === "cancelBooking") {
+    $bookingId = $_POST["booking_id"] ?? "";
 
-    if ($bookingId === '' || !is_numeric($bookingId)) {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Invalid booking ID.'
-        ]);
-        exit;
+    if ($bookingId === "" || !is_numeric($bookingId)) {
+        sendJsonResponse([
+            "status" => "error",
+            "message" => "Invalid booking ID."
+        ], 400);
     }
 
-    $booking = $model->getBookingById($connection, $bookingId, $_SESSION['user_id']);
+    $booking = $model->getBookingById($connection, $bookingId, $_SESSION["user_id"]);
     if (!$booking) {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Booking not found.'
-        ]);
-        exit;
+        sendJsonResponse([
+            "status" => "error",
+            "message" => "Booking not found."
+        ], 404);
     }
 
-    $checkinTimestamp = strtotime($booking['checkin_date']);
-    $cancelDeadline = strtotime('+1 day');
-    if (!in_array($booking['status'], ['Pending', 'Confirmed']) || $checkinTimestamp <= $cancelDeadline) {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'This booking cannot be cancelled.'
-        ]);
-        exit;
+    $checkinTimestamp = strtotime($booking["checkin_date"]);
+    $cancelDeadline = strtotime("+1 day");
+    if (!in_array($booking["status"], ["Pending", "Confirmed"]) || $checkinTimestamp <= $cancelDeadline) {
+        sendJsonResponse([
+            "status" => "error",
+            "message" => "This booking cannot be cancelled."
+        ], 400);
     }
 
-    $cancelled = $model->cancelBooking($connection, $bookingId, $_SESSION['user_id']);
+    $cancelled = $model->cancelBooking($connection, $bookingId, $_SESSION["user_id"]);
     if ($cancelled) {
-        echo json_encode([
-            'status' => 'success',
-            'message' => 'Booking cancelled successfully.'
+        sendJsonResponse([
+            "status" => "success",
+            "message" => "Booking cancelled successfully."
         ]);
     } else {
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Could not cancel booking.'
-        ]);
+        sendJsonResponse([
+            "status" => "error",
+            "message" => "Could not cancel booking."
+        ], 500);
     }
-    exit;
 }
 
-echo json_encode([
-    'status' => 'error',
-    'message' => 'Invalid request.'
-]);
-exit;
-?>
+sendJsonResponse([
+    "status" => "error",
+    "message" => "Invalid request."
+], 400);

@@ -1,9 +1,11 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-include "../Model/dataConnection.php";
-include "../Model/BookingModel.php";
-include "../Model/RoomModel.php";
+require_once __DIR__ . "/../Model/dataConnection.php";
+require_once __DIR__ . "/../Model/BookingModel.php";
+require_once __DIR__ . "/../Model/RoomModel.php";
 
 function sendJsonResponse($payload, $statusCode = 200)
 {
@@ -88,10 +90,10 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 $DB = new db();
 $connection = $DB->connection();
-$bookingModel = new BookingModel($connection);
+$bookingModel = new BookingModel();
 
 if ($userId === "") {
-    $guest = $bookingModel->getLatestGuest();
+    $guest = $bookingModel->getLatestGuest($connection);
     $userId = $guest["id"] ?? "";
 }
 
@@ -114,18 +116,18 @@ $totalPrice = $nights * (float) $roomType["price_per_night"];
 $connection->begin_transaction();
 
 try {
-    $roomId = $bookingModel->findAvailableRoomId($roomTypeId, $checkin, $checkout, $guests);
+    $roomId = $bookingModel->findAvailableRoomId($connection, $roomTypeId, $checkin, $checkout, $guests);
     if (!$roomId) {
         $connection->rollback();
         redirectWithBookingError("Sorry, this room type is no longer available for those dates.");
     }
 
-    if (!$bookingModel->updateGuestContact($userId, $guestName, $email, $phone, $nationality)) {
+    if (!$bookingModel->updateGuestContact($connection, $userId, $guestName, $email, $phone, $nationality)) {
         $connection->rollback();
         redirectWithBookingError("Could not update guest contact details.");
     }
 
-    $bookingId = $bookingModel->createBooking($userId, $roomId, $checkin, $checkout, $totalPrice);
+    $bookingId = $bookingModel->createBooking($connection, $userId, $roomId, $checkin, $checkout, $totalPrice);
     if (!$bookingId) {
         $connection->rollback();
         redirectWithBookingError("Could not create booking.");
@@ -148,4 +150,3 @@ try {
     $connection->rollback();
     redirectWithBookingError("Could not complete booking.");
 }
-?>

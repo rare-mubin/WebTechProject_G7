@@ -15,7 +15,7 @@ $error = $_GET["error"] ?? "";
 
 $DB = new db();
 $connection = $DB->connection();
-$bookingModel = new BookingModel($connection);
+$bookingModel = new BookingModel();
 
 $roomType = $roomTypeId !== "" ? getRoomTypeById($connection, $roomTypeId) : null;
 $nights = 0;
@@ -30,10 +30,10 @@ if ($roomType && $nights > 0) {
 }
 
 $userId = $_SESSION["user_id"] ?? $_SESSION["id"] ?? "";
-$guest = $userId !== "" ? $bookingModel->getGuestById($userId) : null;
+$guest = $userId !== "" ? $bookingModel->getGuestById($connection, $userId) : null;
 
 if (!$guest) {
-    $guest = $bookingModel->getLatestGuest();
+    $guest = $bookingModel->getLatestGuest($connection);
     $userId = $guest["id"] ?? "";
 }
 
