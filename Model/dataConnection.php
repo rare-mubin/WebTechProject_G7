@@ -8,10 +8,10 @@
             $db_password="";
             $db_name="hotel_r";
 
-            $connection=  new mysqli($db_host, $db_user,$db_password,$db_name);
+            $connection = @new mysqli($db_host, $db_user, $db_password, $db_name);
             if($connection->connect_error)
             {
-                die ("Could not Connect Database".$connection->connect_error);
+                throw new Exception("Could not Connect Database: ".$connection->connect_error);
             }
             return $connection;
         }

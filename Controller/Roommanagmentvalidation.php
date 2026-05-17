@@ -1,87 +1,94 @@
 <?php
+require_once __DIR__ . "/../Model/RoomModel.php";
+require_once __DIR__ . "/../Model/RoomTypeModel.php";
 
-if (isset($_POST['action']) && $_POST['action'] === 'Add') {
+header("Content-Type: application/json");
 
-    $roomType = $_POST['roomType'] ?? '';
-    $roomNumber = $_POST['roomNumber'] ?? '';
-    $floor = $_POST['floor'] ?? '';
-    $perNightRate = $_POST['perNightRate'] ?? '';
-
-    if ($roomType === '') {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Please select room type"
-        ]);
-        exit;
+function respondRoom($status, $message, $data = null)
+{
+    $payload = ["status" => $status, "message" => $message];
+    if ($data !== null) {
+        $payload["data"] = $data;
     }
-
-    if ($roomNumber === '') {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Room number is required"
-        ]);
-        exit;
-    }
-
-    if (!is_numeric($roomNumber)) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Room number must be number"
-        ]);
-        exit;
-    }
-
-    if ($roomNumber <= 0) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Room number must be greater than 0"
-        ]);
-        exit;
-    }
-
-    if ($floor === '') {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Floor is required"
-        ]);
-        exit;
-    }
-
-    if ($perNightRate === '') {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Per night rate is required"
-        ]);
-        exit;
-    }
-
-    if (!is_numeric($perNightRate)) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Per night rate must be number"
-        ]);
-        exit;
-    }
-
-    if ($perNightRate <= 0) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Per night rate must be greater than 0"
-        ]);
-        exit;
-    }
-
-    echo json_encode([
-        "status" => "success",
-        "message" => "Room added successfully"
-    ]);
+    echo json_encode($payload);
     exit;
 }
 
-echo json_encode([
-    "status" => "error",
-    "message" => "Invalid request"
-]);
-exit;
+function validateRoomInput($model)
+{
+    $roomTypeId = trim($_POST["roomType"] ?? "");
+    $roomNumber = trim($_POST["roomNumber"] ?? "");
+    $floor = trim($_POST["floor"] ?? "");
+    $status = trim($_POST["status"] ?? "available");
+    $allowedStatuses = ["available", "maintenance"];
 
+    if ($roomTypeId === "" || !ctype_digit($roomTypeId) || !$model->roomTypeExists((int) $roomTypeId)) {
+        respondRoom("error", "Please select a valid room type");
+    }
+    if ($roomNumber === "") {
+        respondRoom("error", "Room number is required");
+    }
+    if ($floor === "" || !ctype_digit($floor) || (int) $floor <= 0) {
+        respondRoom("error", "Floor must be a positive whole number");
+    }
+    if (!in_array($status, $allowedStatuses, true)) {
+        respondRoom("error", "Invalid room status");
+    }
+
+    return [
+        "roomTypeId" => (int) $roomTypeId,
+        "roomNumber" => $roomNumber,
+        "floor" => (int) $floor,
+        "status" => $status
+    ];
+}
+
+try {
+    $action = $_POST["action"] ?? "";
+    $model = new RoomModel();
+
+    if ($action === "listRooms") {
+        respondRoom("success", "Room list loaded", $model->listRooms());
+    }
+
+    if ($action === "listRoomTypes") {
+        $roomTypeModel = new RoomTypeModel();
+        respondRoom("success", "Room type list loaded", $roomTypeModel->listRoomTypes());
+    }
+
+    if ($action === "Add" || $action === "Update") {
+        $id = (int) ($_POST["roomId"] ?? 0);
+        $input = validateRoomInput($model);
+
+        if ($action === "Add") {
+            $saved = $model->createRoom($input["roomTypeId"], $input["roomNumber"], $input["floor"], $input["status"]);
+        } else {
+            if ($id <= 0) {
+                respondRoom("error", "Invalid room");
+            }
+            $saved = $model->updateRoom($id, $input["roomTypeId"], $input["roomNumber"], $input["floor"], $input["status"]);
+        }
+
+        if (!$saved) {
+            respondRoom("error", "Could not save room. " . $model->getLastError());
+        }
+
+        respondRoom("success", $action === "Add" ? "Room added successfully" : "Room updated successfully");
+    }
+
+    if ($action === "Delete") {
+        $id = (int) ($_POST["roomId"] ?? 0);
+        if ($id <= 0) {
+            respondRoom("error", "Invalid room");
+        }
+        if (!$model->deleteRoom($id)) {
+            respondRoom("error", "Could not delete room. This room may have bookings.");
+        }
+        respondRoom("success", "Room deleted successfully");
+    }
+
+    respondRoom("error", "Invalid request");
+} catch (Throwable $error) {
+    respondRoom("error", $error->getMessage());
+}
 ?>
