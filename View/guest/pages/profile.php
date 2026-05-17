@@ -1,9 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
-    <style>
+<?php
+session_start();
+
+require_once __DIR__ . '/../../../Model/dataConnection.php';
+require_once __DIR__ . '/../../../Model/profileModel.php';
+
+$db = new db();
+$connection = $db->connection();
+$profileModel = new ProfileModel();
+
+$userId = $_SESSION['user_id'] ?? 0;
+$profile = $userId ? $profileModel->getUserProfile($connection, $userId) : null;
+$roomTypes = $profileModel->getRoomTypes($connection);
+$upcomingBooking = $userId ? $profileModel->getUpcomingBooking($connection, $userId) : null;
+$subscribeOffers = ($_COOKIE['subscribe_offers'] ?? '0') === '1';
+
+$profile = $profile ?: [
+    'id' => 0,
+    'name' => 'Guest User',
+    'email' => '',
+    'phone' => '',
+    'nationality' => '',
+    'role' => 'guest',
+    'preferred_room_type_id' => '',
+    'preferred_room_type_name' => '',
+    'special_requests' => ''
+];
+
+$avatarLetter = strtoupper(substr($profile['name'], 0, 1));
+$memberCode = '#USR' . str_pad((string) $profile['id'], 6, '0', STR_PAD_LEFT);
+$upcomingStatusClass = '';
+
+if ($upcomingBooking) {
+    $status = $upcomingBooking['status'];
+    if ($status === 'Pending') {
+        $upcomingStatusClass = 'badge-pending';
+    } elseif ($status === 'Checked-In') {
+        $upcomingStatusClass = 'badge-checkedin';
+    } else {
+        $upcomingStatusClass = 'badge-confirmed';
+    }
+}
+?>
+<style>
         :root {
             --bg: #f6f2ea;
             --panel: #ffffff;
@@ -294,6 +332,21 @@
             margin: 6px auto 0;
         }
 
+        .badge-confirmed {
+            background: rgba(46, 125, 50, 0.14);
+            color: #246b27;
+        }
+
+        .badge-pending {
+            background: rgba(180, 115, 0, 0.16);
+            color: #9a5c00;
+        }
+
+        .badge-checkedin {
+            background: rgba(21, 101, 192, 0.14);
+            color: #0f4fa8;
+        }
+
         .booking-link {
             display: flex;
             justify-content: center;
@@ -362,132 +415,133 @@
             }
         }
     </style>
-</head>
-<body>
-    <div class="page">
-        <header class="topbar">
-            <h1>Profile</h1>
-            <span class="tab">Overview</span>
-        </header>
 
-        <section class="layout">
-            <aside class="card sidebar">
-                <div class="profile-head">
-                    <div class="avatar">N</div>
-                    <div>
-                        <h2>Nicholas Swatz</h2>
-                        <p class="member-code">#USR246534</p>
-                        <p class="role-text">Role: Guest</p>
-                    </div>
+<div class="page">
+    <header class="topbar">
+        <h1>Profile</h1>
+        <span class="tab">Overview</span>
+    </header>
+
+    <section class="layout">
+        <aside class="card sidebar">
+            <div class="profile-head">
+                <div class="avatar"><?php echo htmlspecialchars($avatarLetter); ?></div>
+                <div>
+                    <h2 id="profileDisplayName"><?php echo htmlspecialchars($profile['name']); ?></h2>
+                    <p class="member-code"><?php echo htmlspecialchars($memberCode); ?></p>
+                    <p class="role-text">Role: <?php echo htmlspecialchars(ucfirst($profile['role'])); ?></p>
                 </div>
+            </div>
 
-                <div class="info-section">
-                    <h3>About</h3>
-                    <div class="info-list">
-                        <p><strong>Phone:</strong> (629) 555-0123</p>
-                        <p><strong>Email:</strong> nicholasswatz@gmail.com</p>
-                    </div>
+            <div class="info-section">
+                <h3>About</h3>
+                <div class="info-list">
+                    <p><strong>Phone:</strong> <span id="profileDisplayPhone"><?php echo htmlspecialchars($profile['phone']); ?></span></p>
+                    <p><strong>Email:</strong> <span id="profileDisplayEmail"><?php echo htmlspecialchars($profile['email']); ?></span></p>
                 </div>
+            </div>
 
-                <div class="info-section">
+            <div class="info-section">
                     <h3>Preferences</h3>
                     <div class="info-list">
-                        <p><strong>Nationality:</strong> American</p>
-                        <p><strong>Preferred room:</strong> Deluxe Suite</p>
-                        <p><strong>Offers:</strong> Subscribed</p>
+                        <p><strong>Nationality:</strong> <span id="profileDisplayNationality"><?php echo htmlspecialchars($profile['nationality']); ?></span></p>
+                        <p><strong>Preferred room:</strong> <span id="profilePreferredRoom"><?php echo htmlspecialchars($profile['preferred_room_type_name'] ?: 'Not set'); ?></span></p>
+                        <p><strong>Offers:</strong> <span id="profileOffersText"><?php echo $subscribeOffers ? 'Subscribed' : 'Not subscribed'; ?></span></p>
                     </div>
                 </div>
 
                 <div class="info-section">
                     <h3>Account Details</h3>
                     <div class="info-list">
-                        <p><strong>Member since:</strong> Jan 05, 2023</p>
-                        <p><strong>Special requests:</strong> High floor room, non-smoking</p>
+                        <p><strong>Special requests:</strong> <span id="profileSpecialRequests"><?php echo htmlspecialchars($profile['special_requests'] ?: 'None'); ?></span></p>
                     </div>
                 </div>
+        </aside>
 
-                <a href="#edit-profile" class="edit-btn">Edit Profile</a>
-            </aside>
+        <div class="main-panel">
+            <div class="main-grid">
+                <div class="form-card" id="edit-profile">
+                    <h3>Profile & Preferences</h3>
 
-            <div class="main-panel">
-                <div class="main-grid">
-                    <div class="form-card" id="edit-profile">
-                        <h3>Profile & Preferences</h3>
-
-                        <form action="#" method="post">
-                            <div class="form-grid">
-                                <div class="field">
-                                    <label for="name">Name</label>
-                                    <input type="text" id="name" name="name" value="Nicholas Swatz">
-                                </div>
-
-                                <div class="field">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" name="email" value="nicholasswatz@gmail.com">
-                                </div>
-
-                                <div class="field">
-                                    <label for="phone">Phone</label>
-                                    <input type="text" id="phone" name="phone" value="(629) 555-0123">
-                                </div>
-
-                                <div class="field">
-                                    <label for="nationality">Nationality</label>
-                                    <input type="text" id="nationality" name="nationality" value="American">
-                                </div>
-
-                                <div class="field-full">
-                                    <label for="preferred_room_type_id">Preferred Room Type</label>
-                                    <select id="preferred_room_type_id" name="preferred_room_type_id">
-                                        <option value="">Select room type</option>
-                                        <option value="1">Standard Room</option>
-                                        <option value="2" selected>Deluxe Suite</option>
-                                        <option value="3">Family Room</option>
-                                        <option value="4">Presidential Suite</option>
-                                    </select>
-                                </div>
-
-                                <div class="field-full">
-                                    <label for="special_requests">Special Requests</label>
-                                    <textarea id="special_requests" name="special_requests">High floor room, non-smoking</textarea>
-                                </div>
-
-                                <div class="field-full">
-                                    <label class="checkbox-row" for="subscribe_offers">
-                                        <input type="checkbox" id="subscribe_offers" name="subscribe_offers" checked>
-                                        <span>Subscribe to offers</span>
-                                    </label>
-                                </div>
+                    <form onsubmit="event.preventDefault(); saveProfile();" method="post">
+                        <div class="form-grid">
+                            <div class="field">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($profile['name']); ?>">
                             </div>
 
-                            <div class="actions">
-                                <button type="submit" class="save-btn">Save Changes</button>
+                            <div class="field">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($profile['email']); ?>">
                             </div>
-                        </form>
 
-                    </div>
+                            <div class="field">
+                                <label for="phone">Phone</label>
+                                <input type="text" id="phone" name="phone" value="<?php echo htmlspecialchars($profile['phone']); ?>">
+                            </div>
 
-                    <div class="booking-card">
-                        <div>
-                            <h3>Upcoming Booking</h3>
-                            <div class="booking-body">
-                                <div>
-                                    <h4 class="booking-title">Deluxe Suite</h4>
-                                    <div class="booking-details">
-                                        <span><strong>Check-in:</strong> Jun 18, 2026</span>
-                                        <span><strong>Check-out:</strong> Jun 21, 2026</span>
-                                        <span><strong>Status:</strong></span>
-                                        <span class="badge">Confirmed</span>
-                                    </div>
-                                </div>
+                            <div class="field">
+                                <label for="nationality">Nationality</label>
+                                <input type="text" id="nationality" name="nationality" value="<?php echo htmlspecialchars($profile['nationality']); ?>">
+                            </div>
+
+                            <div class="field-full">
+                                <label for="preferred_room_type_id">Preferred Room Type</label>
+                                <select id="preferred_room_type_id" name="preferred_room_type_id">
+                                    <option value="">Select room type</option>
+                                    <?php foreach ($roomTypes as $roomType): ?>
+                                        <option value="<?php echo (int) $roomType['id']; ?>" <?php echo (string) $profile['preferred_room_type_id'] === (string) $roomType['id'] ? 'selected' : ''; ?>>
+                                            <?php echo htmlspecialchars($roomType['name']); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+
+                            <div class="field-full">
+                                <label for="special_requests">Special Requests</label>
+                                <textarea id="special_requests" name="special_requests"><?php echo htmlspecialchars($profile['special_requests']); ?></textarea>
+                            </div>
+
+                            <div class="field-full">
+                                <label class="checkbox-row" for="subscribe_offers">
+                                    <input type="checkbox" id="subscribe_offers" name="subscribe_offers" <?php echo $subscribeOffers ? 'checked' : ''; ?>>
+                                    <span>Subscribe to offers</span>
+                                </label>
                             </div>
                         </div>
 
-                        <a href="#" class="booking-link">My Bookings</a>
+                        <div class="actions">
+                            <button type="submit" class="save-btn">Save Changes</button>
+                        </div>
+                        <p id="profileMessage" class="hint"></p>
+                    </form>
+                </div>
+
+                <div class="booking-card">
+                    <div>
+                        <h3>Upcoming Booking</h3>
+                        <div class="booking-body">
+                            <?php if ($upcomingBooking): ?>
+                                <div>
+                                    <h4 class="booking-title"><?php echo htmlspecialchars($upcomingBooking['room_type_name']); ?></h4>
+                                    <div class="booking-details">
+                                        <span><strong>Check-in:</strong> <?php echo htmlspecialchars(date('M d, Y', strtotime($upcomingBooking['checkin_date']))); ?></span>
+                                        <span><strong>Check-out:</strong> <?php echo htmlspecialchars(date('M d, Y', strtotime($upcomingBooking['checkout_date']))); ?></span>
+                                        <span><strong>Status:</strong></span>
+                                        <span class="badge <?php echo htmlspecialchars($upcomingStatusClass); ?>"><?php echo htmlspecialchars($upcomingBooking['status']); ?></span>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <div>
+                                    <h4 class="booking-title">No upcoming stays.</h4>
+                                </div>
+                            <?php endif; ?>
+                        </div>
                     </div>
+
+                    <a href="#" class="booking-link">My Bookings</a>
                 </div>
             </div>
-        </section>
-    </div>
-</body>
-</html>
+        </div>
+    </section>
+</div>
