@@ -134,6 +134,9 @@ function handleLinkClick(e) {
        if (page === 'Roomtype') {
         loadScriptOnce('/WebTechProject_G7/Assets/js/Roomtype.js', 'roomtype-js');
       }
+      if (page === 'profile') {
+        loadScriptOnce('/WebTechProject_G7/Assets/js/profile.js', 'profile-js');
+      }
       
     }
   };
