@@ -251,7 +251,7 @@
         </div>
       </div>
 
-      <button type="submit" class="book-submit">Book Now</button>
+      <button type="submit"   onclick="searchform()"   class="book-submit">Search Now</button>
     </form>
 
     <aside class="room-summary-card">
