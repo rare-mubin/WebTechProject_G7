@@ -1,3 +1,32 @@
+function bookingPage() {
+  const content = document.getElementById("page-content");
+
+  if (!content) {
+    window.location.href = "/WebTechProject_G7/View/guest/pages/BookingPage.php";
+    return;
+  }
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", "/WebTechProject_G7/View/guest/pages/BookingPage.php", true);
+
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      content.innerHTML = xhr.responseText;
+      document.title = "Booking Page";
+    } else {
+      console.error("Failed to load booking page:", xhr.status, xhr.statusText);
+      content.innerHTML = "<p>Unable to load booking page. Please try again later.</p>";
+    }
+  };
+
+  xhr.onerror = function () {
+    console.error("Network error while loading booking page.");
+    content.innerHTML = "<p>Unable to load booking page. Please check your connection.</p>";
+  };
+
+  xhr.send();
+}
+
 function searchform() {
   let checkInDate = document.getElementById("checkin").value;
   let checkOutDate = document.getElementById("checkout").value;
@@ -137,7 +166,9 @@ function handleLinkClick(e) {
       if (page === 'profile') {
         loadScriptOnce('/WebTechProject_G7/Assets/js/profile.js', 'profile-js');
       }
-      
+      if (page === 'MybookingPage') {
+        loadScriptOnce('/WebTechProject_G7/Assets/js/mybooking.js', 'mybookingpage-js');
+      }
     }
   };
 

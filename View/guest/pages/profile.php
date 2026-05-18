@@ -539,7 +539,7 @@ if ($upcomingBooking) {
                         </div>
                     </div>
 
-                    <a href="#" class="booking-link">My Bookings</a>
+                    <a href="#" class="nav-btn nav-link" onclick="bookingPage();" data-page="MybookingPage" data-title="My-booking">My Bookings</a>
                 </div>
             </div>
         </div>
