@@ -20,7 +20,7 @@ if (isset($_POST["action"]) && $_POST["action"] === "updateStatus") {
 	$status = $_POST["status"] ?? "";
 	$allowedStatuses = ["Pending", "Confirmed", "Checked-In", "Checked-Out", "Cancelled"];
 
-	if ($bookingId === "" || !ctype_digit((string) $bookingId) || (int) $bookingId <= 0) {
+	if ($bookingId === "" || (int) $bookingId <= 0) {
 		echo json_encode([
 			"status" => "error",
 			"message" => "Invalid booking selected"
