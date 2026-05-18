@@ -90,12 +90,6 @@
         border: 1px solid #f5c2c7;
     }
 
-    @media (max-width: 900px) {
-        .summary-grid,
-        .dashboard-lists {
-            grid-template-columns: 1fr;
-        }
-    }
 </style>
 
 <div class="dashboard-page">
